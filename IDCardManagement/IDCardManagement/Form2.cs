@@ -15,8 +15,8 @@ namespace IDCardManagement
 {
     public partial class Form2 : Form
     {
-        int Y;
-        int X;
+        public int Y{get;set;}
+        public int X{get;set;}
         private IDCard idcard;
         PictureBox pictureBox1;
         Panel panel1;
@@ -43,6 +43,7 @@ namespace IDCardManagement
                 fontToolStripComboBox.Items.Add(font.Name);
             }
 
+
         }
 
         private void Form2_LoadFile(object sender, EventArgs e)
@@ -50,6 +51,12 @@ namespace IDCardManagement
             if (idcard.backgroundImage != null) panel1.BackgroundImage = idcard.backgroundImage;
             else { panel1.BackgroundImage = null; }
             label1.Text = idcard.title;
+            label1.MouseDown += tmplbl_MouseDown;
+            ControlMover.Init(label1);
+            //ControlMover.Init(panel1);
+            if(pictureBox1 != null)
+            ControlMover.Init(pictureBox1);
+            panel1.Visible = true;
             panel1.Size = new Size(idcard.dimensions.Width * 10, idcard.dimensions.Height * 10);
             contextMenuStrip1.Items.Clear();
             foreach (String str in idcard.selectedFields)
@@ -61,11 +68,12 @@ namespace IDCardManagement
         }
 
         //open
-        private void toolStripButton5_Click(object sender, EventArgs e)
+        private void openToolStripButton_Click(object sender, EventArgs e)
         {
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                this.Text = openFileDialog1.FileName +" - "+ this.Text;
                 ArrayList fields = new ArrayList();
                 ArrayList selectedFields = new ArrayList();
                 Image backgroundImage = null;
@@ -100,9 +108,15 @@ namespace IDCardManagement
                                     tmp.ForeColor = Color.FromArgb(Convert.ToInt32(reader.GetAttribute("forecolor")));
                                     break;
                                 case "pictureBox":
+
                                     pictureBox1 = new PictureBox();
+                                    panel1.Controls.Add(pictureBox1);
+                                    pictureBox1.BackgroundImage = global::IDCardManagement.Properties.Resources.avatar;
+                                    //Console.WriteLine("alice blue");
                                     pictureBox1.Left = Convert.ToInt32(reader.GetAttribute("left"));
                                     pictureBox1.Top = Convert.ToInt32(reader.GetAttribute("top"));
+                                    pictureBox1.Height = Convert.ToInt32(reader.GetAttribute("height"));
+                                    pictureBox1.Width = Convert.ToInt32(reader.GetAttribute("width"));
                                     break;
 
                                 case "idCard":
@@ -181,6 +195,7 @@ namespace IDCardManagement
             {
                 X = Cursor.Position.X - panel1.Left;
                 Y = Cursor.Position.Y - panel1.Top - 30;
+                Console.WriteLine(X + "lkkn :"+Y);
             }
 
         }
@@ -276,6 +291,7 @@ namespace IDCardManagement
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 using (XmlWriter wrt = XmlWriter.Create(saveFileDialog1.FileName))
                 {
+                    this.Text = openFileDialog1.FileName + " - " + this.Text;
                     wrt.WriteStartDocument();
                     wrt.WriteStartElement("panel");
                     foreach (Control ctl in this.panel1.Controls)
@@ -294,9 +310,11 @@ namespace IDCardManagement
                         }
                         if (ctl is PictureBox)
                         {
-                            wrt.WriteStartElement("pictureBpx");
+                            wrt.WriteStartElement("pictureBox");
                             wrt.WriteAttributeString("left", ((PictureBox)ctl).Left.ToString());
                             wrt.WriteAttributeString("top", ((PictureBox)ctl).Top.ToString());
+                            wrt.WriteAttributeString("height", ((PictureBox)ctl).Height.ToString());
+                            wrt.WriteAttributeString("width", ((PictureBox)ctl).Width.ToString());
                             wrt.WriteEndElement();
                         }
 
@@ -338,10 +356,26 @@ namespace IDCardManagement
         //new
         private void newToolStripButton_Click(object sender, EventArgs e)
         {
-            Form1 frm = new Form1();
-            Hide();
+            Form1 frm = new Form1(this);
+            //Hide();
             frm.Show();
         }
 
+        private void fontToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (fontDialog1.ShowDialog() == DialogResult.OK)
+            {
+                foreach (Control ctl in panel1.Controls)
+                {
+                    if (ctl is Label)
+                    {
+                        if (((Label)ctl).BorderStyle == BorderStyle.FixedSingle)
+                            ((Label)ctl).Font = fontDialog1.Font;
+                    }
+                }
+            }
+        }
+
+       
     }
 }

@@ -16,8 +16,10 @@ namespace IDCardManagement
         ArrayList fields;
         ArrayList selectedFields;
         String title;
-        public Form1()
+        object senderform;
+        public Form1(object sender)
         {
+            this.senderform = sender;
             InitializeComponent();
         }
 
@@ -63,7 +65,7 @@ namespace IDCardManagement
             dcs.SaveConfiguration(dcd);
         }
 
-       
+
         private void test_Click(object sender, EventArgs e)
         {
             pictureBox1.Height = (int)numericUpDown1.Value * 3;
@@ -115,6 +117,7 @@ namespace IDCardManagement
             label9.Left = pictureBox1.Left + (pictureBox1.Width - label9.Width) / 2;
         }
 
+        //next/finish button
         private void button4_Click(object sender, EventArgs e)
         {
             if (tabControl1.SelectedIndex + 1 < tabControl1.TabCount)
@@ -124,13 +127,13 @@ namespace IDCardManagement
             }
             else
             {
+                (this.senderform as Form2).Hide();
                 selectedFields = new ArrayList();
                 foreach (string str in listBox2.Items) selectedFields.Add(str);
                 IDCard idcard = new IDCard(connectionString, tableName, dimensions, backgroundImage, fields, selectedFields, title);
                 Form2 frm = new Form2(idcard);
                 frm.Show();
-                this.Hide();
-
+                this.Close();
             }
 
 
@@ -163,10 +166,12 @@ namespace IDCardManagement
 
         private void button6_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Really Quit?", "Confirm Exit", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                this.Close();
-            }
+            (this.senderform as Form2).Show();
+            this.Close();
+            //if (MessageBox.Show("Really Quit?", "Confirm Exit", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            //{
+            //    this.Close();
+            //}
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
