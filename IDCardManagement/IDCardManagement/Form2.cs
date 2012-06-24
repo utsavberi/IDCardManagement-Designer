@@ -15,25 +15,24 @@ namespace IDCardManagement
 {
     public partial class Form2 : Form
     {
-        public int Y { get; set; }
-
-        public int X { get; set; }
+        int Y;
+        int X;
         private IDCard idcard;
         PictureBox pictureBox1;
         Panel panel1;
         Label label1;
+
         public Form2()
         {
             InitializeComponent();
 
         }
+
+        //called in "new" subroutine
         public Form2(IDCard idcard)
         {
             InitializeComponent();
-            //ControlMover.Init(pictureBox1);
-            //ControlMover.Init(label1);
             this.idcard = idcard;
-
             Form2_LoadFile(null, null);
         }
 
@@ -41,29 +40,20 @@ namespace IDCardManagement
         {
             foreach (FontFamily font in System.Drawing.FontFamily.Families)
             {
-                toolStripComboBox1.Items.Add(font.Name);
+                fontToolStripComboBox.Items.Add(font.Name);
             }
 
         }
+
         private void Form2_LoadFile(object sender, EventArgs e)
         {
-            foreach (string str in idcard.selectedFields) Console.WriteLine("arrayList:" + str);
-            //panel1 = new Panel();
-            if (panel1 == null) panel1 = new Panel();
-            panel1.Top = 0;
-            panel1.Left = 0;
-            Controls.Add(panel1);
-            if(label1==null)label1 = new Label();
-            panel1.Click += panel1_Click;
-            panel1.MouseUp += panel1_MouseUp;
-
             if (idcard.backgroundImage != null) panel1.BackgroundImage = idcard.backgroundImage;
+            else { panel1.BackgroundImage = null; }
             label1.Text = idcard.title;
-            panel1.Controls.Add(label1);
             panel1.Size = new Size(idcard.dimensions.Width * 10, idcard.dimensions.Height * 10);
+            contextMenuStrip1.Items.Clear();
             foreach (String str in idcard.selectedFields)
             {
-               // Console.WriteLine(str);
                 ToolStripItem tmp = contextMenuStrip1.Items.Add(str);
                 tmp.Click += tmpToolStripItem_Click;
             }
@@ -78,14 +68,16 @@ namespace IDCardManagement
             {
                 ArrayList fields = new ArrayList();
                 ArrayList selectedFields = new ArrayList();
-                Image backgroundImage = null;//= idcard.backgroundImage;
+                Image backgroundImage = null;
                 string connectionString = "", tableName = "", title = "";
                 Size dimensions = new Size();
-                if (panel1 != null) panel1.Dispose();
-                panel1 = new Panel();
+
+                //if (panel1 != null) 
+                //panel1 = new Panel();
+                panel1.Controls.Clear();
                 panel1.ContextMenuStrip = contextMenuStrip1;
-               
-                label1 = new Label();
+                //label1 = new Label();
+
                 using (XmlTextReader reader = new XmlTextReader(openFileDialog1.FileName))
                     while (reader.Read())
                     {
@@ -143,38 +135,18 @@ namespace IDCardManagement
                             }
 
                             #endregion
-                            //if (reader.Name == "field")
-                            //{
-                            //    Console.WriteLine(reader.ReadString());
-                            //}
-                        }
-                        if (reader.NodeType == XmlNodeType.Text)
-                        {
-                            //switch (reader.Name)
-                            //{
-                            //    case "field":
-                            //        fields.Add(reader.Value);
-
-                            //Console.WriteLine("name: "  +" value :"+ reader.Value);
-                            //        break;
-                            //    case "selectedFields":
-                            //        selectedFields.Add(reader.Value);
-                            //        break;
-
-                            //}
                         }
                     }
                 idcard = new IDCard(connectionString, tableName, dimensions, backgroundImage, fields, selectedFields, title);
-               
+
                 Form2_LoadFile(null, null);
             }
         }
 
         private void tmpToolStripItem_Click(object sender, EventArgs e)
         {
-            
+
             ToolStripItem clickedItem = (ToolStripItem)sender;
-            Console.WriteLine("ccclllkk"+clickedItem.Text+X +Y);
             Label tmp = new Label();
             tmp.BackColor = Color.Transparent;
             tmp.Text = clickedItem.Text;
@@ -188,7 +160,6 @@ namespace IDCardManagement
 
         private void tmplbl_MouseDown(object sender, MouseEventArgs e)
         {
-            //pictureBox1.BorderStyle = BorderStyle.None;
             if (Control.ModifierKeys != Keys.Control)
                 foreach (Control ctl in panel1.Controls)
                 {
@@ -197,13 +168,12 @@ namespace IDCardManagement
                 }
             Label tmp = sender as Label;
             tmp.BorderStyle = BorderStyle.FixedSingle;
-            toolStripComboBox1.Text = tmp.Font.FontFamily.Name;
-            toolStripComboBox2.Text = ((int)tmp.Font.Size).ToString();
+            fontToolStripComboBox.Text = tmp.Font.FontFamily.Name;
+            fontSizeToolStripComboBox.Text = ((int)tmp.Font.Size).ToString();
             toolStripButton1.BackColor = tmp.ForeColor;
             toolStripButton2.BackColor = tmp.BackColor;
 
         }
-
 
         private void panel1_MouseUp(object sender, MouseEventArgs e)
         {
@@ -214,15 +184,12 @@ namespace IDCardManagement
             }
 
         }
-
-
+        
         private void panel1_Click(object sender, EventArgs e)
         {
             foreach (Control ctl in panel1.Controls) { if (ctl is Label) { ((Label)ctl).BorderStyle = BorderStyle.None; } }
 
         }
-
-
 
         private void Form2_Click(object sender, EventArgs e)
         {
@@ -231,31 +198,28 @@ namespace IDCardManagement
 
         }
 
-
-
-        private void toolStripComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void fontToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             foreach (Control ctl in panel1.Controls)
             {
-                if (ctl is Label) if (((Label)ctl).BorderStyle == BorderStyle.FixedSingle) ((Label)ctl).Font = new Font(toolStripComboBox1.Text, ctl.Font.Size);
+                if (ctl is Label) if (((Label)ctl).BorderStyle == BorderStyle.FixedSingle) ((Label)ctl).Font = new Font(fontToolStripComboBox.Text, ctl.Font.Size);
             }
         }
 
-        private void toolStripComboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        private void fontSizeToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             foreach (Control ctl in panel1.Controls)
             {
                 if (ctl is Label)
                 {
                     if (((Label)ctl).BorderStyle == BorderStyle.FixedSingle)
-                        ((Label)ctl).Font = new Font(ctl.Font.FontFamily.ToString(), Convert.ToInt32(toolStripComboBox2.Text));
+                        ((Label)ctl).Font = new Font(ctl.Font.FontFamily.ToString(), Convert.ToInt32(fontSizeToolStripComboBox.Text));
                 }
             }
 
         }
 
-
-        private void toolStripButton2_Click(object sender, EventArgs e)
+        private void backcolorToolStripButton_Click(object sender, EventArgs e)
         {
             if (colorDialog1.ShowDialog() == DialogResult.OK)
                 foreach (Control ctl in panel1.Controls)
@@ -269,7 +233,6 @@ namespace IDCardManagement
 
         }
 
-
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
             pictureBox1.BorderStyle = BorderStyle.FixedSingle;
@@ -277,7 +240,7 @@ namespace IDCardManagement
 
         }
 
-        private void toolStripButton3_Click(object sender, EventArgs e)
+        private void deleteToolStripButton_Click(object sender, EventArgs e)
         {
             foreach (Control ctl in panel1.Controls)
             {
@@ -285,14 +248,14 @@ namespace IDCardManagement
                 {
                     if (((Label)ctl).BorderStyle == BorderStyle.FixedSingle)
                         panel1.Controls.Remove(ctl);
-                    ctl.Dispose();
+                   // ctl.Dispose();
                     //((Label)ctl).BackColor = colorDialog1.Color;
                 }
             }
 
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void forecolorToolStripButton_Click(object sender, EventArgs e)
         {
             if (colorDialog1.ShowDialog() == DialogResult.OK)
                 foreach (Control ctl in panel1.Controls)
@@ -305,8 +268,9 @@ namespace IDCardManagement
                 }
 
         }
+
         //save
-        private void toolStripButton4_Click(object sender, EventArgs e)
+        private void saveToolStripButton_Click(object sender, EventArgs e)
         {
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -370,99 +334,9 @@ namespace IDCardManagement
                 }
         }
 
-        //open
-        //private void toolStripButton5_Click(object sender, EventArgs e)
-        //{
-        //    ArrayList fields = new ArrayList();
-        //    ArrayList selectedFields = new ArrayList();
-        //    Image backgroundImage= idcard.backgroundImage;
-        //    string connectionString="", tableName="",title="";
-        //    Size dimensions=new Size();
 
-
-
-        //    if (openFileDialog1.ShowDialog() == DialogResult.OK)
-        //        using (XmlTextReader reader = new XmlTextReader(openFileDialog1.FileName))
-        //            while (reader.Read())
-        //            {
-        //                switch (reader.NodeType)
-        //                {
-        //                    case XmlNodeType.Element:
-        //                        switch (reader.Name)
-        //                        {
-        //                            case "label":
-        //                                Label tmp = new Label();
-        //                                tmp.Text = reader.GetAttribute("text");
-        //                                tmp.Top = Convert.ToInt32(reader.GetAttribute("top"));
-        //                                tmp.Left = Convert.ToInt32(reader.GetAttribute("left"));
-        //                                this.panel1.Controls.Add(tmp);
-        //                                tmp.AutoSize = true;
-        //                                tmp.Font = (Font)TypeDescriptor.GetConverter(typeof(Font)).ConvertFromString(reader.GetAttribute("font"));
-        //                                tmp.BackColor = Color.FromArgb(Convert.ToInt32(reader.GetAttribute("backcolor")));
-        //                                tmp.ForeColor = Color.FromArgb(Convert.ToInt32(reader.GetAttribute("forecolor")));
-        //                                break;
-        //                            case "pictureBox":
-        //                                PictureBox tmpPic = new PictureBox();
-        //                                tmpPic.Left = Convert.ToInt32(reader.GetAttribute("left"));
-        //                                tmpPic.Top = Convert.ToInt32(reader.GetAttribute("top"));
-        //                                break;
-        //                            case "field":
-        //                                fields.Add(reader.Value);
-        //                                break;
-        //                            case "selectedFields":
-        //                                selectedFields.Add(reader.Value);
-        //                                break;
-
-
-        //                            case "idCard":
-        //                                dimensions.Height = Convert.ToInt32(reader.GetAttribute("height"));
-        //                                dimensions.Width = Convert.ToInt32(reader.GetAttribute("width"));
-        //                                String base64String;
-        //                                if ((base64String = reader.GetAttribute("backgroundImage")) != null)
-        //                                {
-        //                                    // Console.WriteLine(base64String);
-        //                                    byte[] imageBytes = Convert.FromBase64String(base64String);
-        //                                    MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
-        //                                    // Convert byte[] to Image
-        //                                    ms.Write(imageBytes, 0, imageBytes.Length);
-        //                                    //Image image = 
-        //                                    backgroundImage = Image.FromStream(ms, true);
-        //                                    Console.WriteLine("done");
-        //                                }
-        //                                title = reader.GetAttribute("title");
-        //                                tableName = reader.GetAttribute ("tableName");
-
-        //                                break;
-
-
-
-        //                        }
-        //                        break;
-        //                    case XmlNodeType.Text: //Display the text in each element.
-        //                        //Console.WriteLine(reader.Value);
-        //                        break;
-        //                    case XmlNodeType.EndElement: //Display the end of the element.
-        //                        //Console.Write("</" + reader.Name);
-        //                        //Console.WriteLine(">");
-        //                        break;
-        //                }
-        //            }                        
-        //    idcard = new IDCard(connectionString, tableName, dimensions, backgroundImage, fields, selectedFields, title);
-
-        //    Form2_Load(null, null);
-        //}
-
-        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void toolStripButton6_Click(object sender, EventArgs e)
+        //new
+        private void newToolStripButton_Click(object sender, EventArgs e)
         {
             Form1 frm = new Form1();
             Hide();
