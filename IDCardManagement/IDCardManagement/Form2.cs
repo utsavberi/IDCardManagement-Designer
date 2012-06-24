@@ -33,31 +33,37 @@ namespace IDCardManagement
             //ControlMover.Init(pictureBox1);
             //ControlMover.Init(label1);
             this.idcard = idcard;
+
+            Form2_LoadFile(null, null);
+        }
+
+        private void Form2_Load(object o, EventArgs e)
+        {
             foreach (FontFamily font in System.Drawing.FontFamily.Families)
             {
                 toolStripComboBox1.Items.Add(font.Name);
             }
 
-
-        }
-
-        private void Form2_Load(object o, EventArgs e)
-        {
         }
         private void Form2_LoadFile(object sender, EventArgs e)
         {
             foreach (string str in idcard.selectedFields) Console.WriteLine("arrayList:" + str);
             //panel1 = new Panel();
+            if (panel1 == null) panel1 = new Panel();
             panel1.Top = 0;
             panel1.Left = 0;
             Controls.Add(panel1);
-            //label1 = new Label();
+            if(label1==null)label1 = new Label();
+            panel1.Click += panel1_Click;
+            panel1.MouseUp += panel1_MouseUp;
+
             if (idcard.backgroundImage != null) panel1.BackgroundImage = idcard.backgroundImage;
             label1.Text = idcard.title;
+            panel1.Controls.Add(label1);
             panel1.Size = new Size(idcard.dimensions.Width * 10, idcard.dimensions.Height * 10);
             foreach (String str in idcard.selectedFields)
             {
-                Console.WriteLine(str);
+               // Console.WriteLine(str);
                 ToolStripItem tmp = contextMenuStrip1.Items.Add(str);
                 tmp.Click += tmpToolStripItem_Click;
             }
@@ -78,9 +84,7 @@ namespace IDCardManagement
                 if (panel1 != null) panel1.Dispose();
                 panel1 = new Panel();
                 panel1.ContextMenuStrip = contextMenuStrip1;
-                panel1.Click += panel1_Click;
-                panel1.MouseUp += panel1_MouseUp;
-
+               
                 label1 = new Label();
                 using (XmlTextReader reader = new XmlTextReader(openFileDialog1.FileName))
                     while (reader.Read())
@@ -168,7 +172,9 @@ namespace IDCardManagement
 
         private void tmpToolStripItem_Click(object sender, EventArgs e)
         {
+            
             ToolStripItem clickedItem = (ToolStripItem)sender;
+            Console.WriteLine("ccclllkk"+clickedItem.Text+X +Y);
             Label tmp = new Label();
             tmp.BackColor = Color.Transparent;
             tmp.Text = clickedItem.Text;
@@ -454,6 +460,13 @@ namespace IDCardManagement
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
 
+        }
+
+        private void toolStripButton6_Click(object sender, EventArgs e)
+        {
+            Form1 frm = new Form1();
+            Hide();
+            frm.Show();
         }
 
     }
