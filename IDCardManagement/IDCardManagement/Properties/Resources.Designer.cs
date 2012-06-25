@@ -122,5 +122,19 @@ namespace IDCardManagement.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap water_icon {
+            get {
+                object obj = ResourceManager.GetObject("water-icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap water_icon1 {
+            get {
+                object obj = ResourceManager.GetObject("water-icon1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

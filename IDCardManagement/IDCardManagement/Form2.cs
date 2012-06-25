@@ -15,8 +15,8 @@ namespace IDCardManagement
 {
     public partial class Form2 : Form
     {
-        public int Y{get;set;}
-        public int X{get;set;}
+        public int Y { get; set; }
+        public int X { get; set; }
         private IDCard idcard;
         PictureBox pictureBox1;
         Panel panel1;
@@ -38,6 +38,7 @@ namespace IDCardManagement
 
         private void Form2_Load(object o, EventArgs e)
         {
+            toolStripStatusLabel1.Text = "Click on Open or New to start working...";
             foreach (FontFamily font in System.Drawing.FontFamily.Families)
             {
                 fontToolStripComboBox.Items.Add(font.Name);
@@ -50,14 +51,23 @@ namespace IDCardManagement
         {
             if (idcard.backgroundImage != null) panel1.BackgroundImage = idcard.backgroundImage;
             else { panel1.BackgroundImage = null; }
+            toolStripStatusLabel1.Text = "Right Click to add Fields...";
             label1.Text = idcard.title;
             label1.MouseDown += tmplbl_MouseDown;
             ControlMover.Init(label1);
             //ControlMover.Init(panel1);
-            if(pictureBox1 != null)
-            ControlMover.Init(pictureBox1);
+            if (pictureBox1 != null)
+                ControlMover.Init(pictureBox1);
             panel1.Visible = true;
+
             panel1.Size = new Size(idcard.dimensions.Width * 10, idcard.dimensions.Height * 10);
+            panel1.Left = ((Width - panel1.Width) / 2)-20;
+            panel1.Top = (Height - panel1.Height) / 2;
+            rectangleShape1.Visible = true;
+            rectangleShape1.Width = panel1.Width;
+            rectangleShape1.Height = panel1.Height;
+            rectangleShape1.Left = panel1.Left + 5;
+            rectangleShape1.Top = panel1.Top + 5;
             contextMenuStrip1.Items.Clear();
             foreach (String str in idcard.selectedFields)
             {
@@ -73,7 +83,7 @@ namespace IDCardManagement
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                this.Text = openFileDialog1.FileName +" - "+ this.Text;
+                this.Text = openFileDialog1.FileName + " - IDCard Designer";
                 ArrayList fields = new ArrayList();
                 ArrayList selectedFields = new ArrayList();
                 Image backgroundImage = null;
@@ -112,6 +122,7 @@ namespace IDCardManagement
                                     pictureBox1 = new PictureBox();
                                     panel1.Controls.Add(pictureBox1);
                                     pictureBox1.BackgroundImage = global::IDCardManagement.Properties.Resources.avatar;
+                                    pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
                                     //Console.WriteLine("alice blue");
                                     pictureBox1.Left = Convert.ToInt32(reader.GetAttribute("left"));
                                     pictureBox1.Top = Convert.ToInt32(reader.GetAttribute("top"));
@@ -195,11 +206,11 @@ namespace IDCardManagement
             {
                 X = Cursor.Position.X - panel1.Left;
                 Y = Cursor.Position.Y - panel1.Top - 30;
-                Console.WriteLine(X + "lkkn :"+Y);
+                Console.WriteLine(X + "lkkn :" + Y);
             }
 
         }
-        
+
         private void panel1_Click(object sender, EventArgs e)
         {
             foreach (Control ctl in panel1.Controls) { if (ctl is Label) { ((Label)ctl).BorderStyle = BorderStyle.None; } }
@@ -263,7 +274,7 @@ namespace IDCardManagement
                 {
                     if (((Label)ctl).BorderStyle == BorderStyle.FixedSingle)
                         panel1.Controls.Remove(ctl);
-                   // ctl.Dispose();
+                    // ctl.Dispose();
                     //((Label)ctl).BackColor = colorDialog1.Color;
                 }
             }
@@ -291,7 +302,7 @@ namespace IDCardManagement
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 using (XmlWriter wrt = XmlWriter.Create(saveFileDialog1.FileName))
                 {
-                    this.Text = openFileDialog1.FileName + " - " + this.Text;
+                    this.Text = openFileDialog1.FileName + " - IDCard Designer";
                     wrt.WriteStartDocument();
                     wrt.WriteStartElement("panel");
                     foreach (Control ctl in this.panel1.Controls)
@@ -376,6 +387,11 @@ namespace IDCardManagement
             }
         }
 
-       
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
     }
 }
