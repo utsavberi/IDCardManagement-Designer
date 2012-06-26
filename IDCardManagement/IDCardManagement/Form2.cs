@@ -146,6 +146,7 @@ namespace IDCardManagement
                                     }
                                     title = reader.GetAttribute("title");
                                     tableName = reader.GetAttribute("tableName");
+                                    connectionString = reader.GetAttribute("connnectionString");
                                     break;
                                 case "field":
                                     fields.Add(reader.ReadString());
