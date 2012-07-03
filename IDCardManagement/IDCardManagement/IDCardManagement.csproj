@@ -65,8 +65,9 @@
   <ItemGroup>
     <Reference Include="Microsoft.SqlServerCe.Client, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Desktop\ConnectionDialog\References\Microsoft.SqlServerCe.Client.dll</HintPath>
+      <HintPath>..\ConnectionDialog\References\Microsoft.SqlServerCe.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Synchronization.Data.SqlServerCe, Version=3.5.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -129,20 +130,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Desktop\ConnectionDialog\ConnectionUIDialog\Microsoft.Data.ConnectionUI.Dialog.csproj">
-      <Project>{05c97f8d-b7cf-4cab-b81c-0994a70d90ca}</Project>
-      <Name>Microsoft.Data.ConnectionUI.Dialog</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Desktop\ConnectionDialog\ConnectionUI\Microsoft.Data.ConnectionUI.csproj">
-      <Project>{139729cd-0f06-48e8-9f4a-08e78bb6575f}</Project>
-      <Name>Microsoft.Data.ConnectionUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Desktop\ConnectionDialog\SqlCeDataProvider\Microsoft.Data.ConnectionUI.SqlCeDataProvider.csproj">
-      <Project>{1cc9d080-c06d-4202-a14b-14a9cc7f7f31}</Project>
-      <Name>Microsoft.Data.ConnectionUI.SqlCeDataProvider</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\avatar.png" />
@@ -210,6 +197,20 @@
       <Progid>1</Progid>
       <DefaultIcon>leaf.ico</DefaultIcon>
     </FileAssociation>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConnectionDialog\ConnectionUIDialog\Microsoft.Data.ConnectionUI.Dialog.csproj">
+      <Project>{05c97f8d-b7cf-4cab-b81c-0994a70d90ca}</Project>
+      <Name>Microsoft.Data.ConnectionUI.Dialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ConnectionDialog\ConnectionUI\Microsoft.Data.ConnectionUI.csproj">
+      <Project>{139729cd-0f06-48e8-9f4a-08e78bb6575f}</Project>
+      <Name>Microsoft.Data.ConnectionUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ConnectionDialog\SqlCeDataProvider\Microsoft.Data.ConnectionUI.SqlCeDataProvider.csproj">
+      <Project>{1cc9d080-c06d-4202-a14b-14a9cc7f7f31}</Project>
+      <Name>Microsoft.Data.ConnectionUI.SqlCeDataProvider</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

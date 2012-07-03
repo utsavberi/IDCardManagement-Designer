@@ -11,12 +11,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 
+
 namespace IDCardManagement
 {
     public partial class Form2 : Form
     {
-        public int Y { get; set; }
-        public int X { get; set; }
+        private int Y;
+        private int X;
         private IDCard idcard;
         PictureBox pictureBox1;
         Panel panel1;
@@ -25,43 +26,45 @@ namespace IDCardManagement
         public Form2()
         {
             InitializeComponent();
+            gridStatus = 0;
 
         }
 
-        //called in "new" subroutine
+        //called when "file->new" 
         public Form2(IDCard idcard)
         {
             InitializeComponent();
             this.idcard = idcard;
-            Form2_LoadFile(null, null);
+            Form2_LoadFile();
         }
 
         private void Form2_Load(object o, EventArgs e)
         {
             toolStripStatusLabel1.Text = "Click on Open or New to start working...";
-            foreach (FontFamily font in System.Drawing.FontFamily.Families)
-            {
-                fontToolStripComboBox.Items.Add(font.Name);
-            }
-
+            foreach (FontFamily font in System.Drawing.FontFamily.Families) fontToolStripComboBox.Items.Add(font.Name);
 
         }
 
-        private void Form2_LoadFile(object sender, EventArgs e)
+        private void Form2_LoadFile()
         {
             if (idcard.backgroundImage != null) panel1.BackgroundImage = idcard.backgroundImage;
-            else { panel1.BackgroundImage = null; }
             toolStripStatusLabel1.Text = "Right Click to add Fields...";
             label1.Text = idcard.title;
             label1.MouseDown += tmplbl_MouseDown;
             ControlMover.Init(label1);
             //ControlMover.Init(panel1);
-            if (pictureBox1 != null)
-                ControlMover.Init(pictureBox1);
+            if (pictureBox1 == null)
+            {
+
+                pictureBox1 = new PictureBox(); pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+                pictureBox1.Left = 10; pictureBox1.Top = 10; panel1.Controls.Add(pictureBox1); pictureBox1.BackgroundImage = global::IDCardManagement.Properties.Resources.avatar;
+                pictureBox1.Width = 70; pictureBox1.Height = 70;
+            }
+            ControlMover.Init(pictureBox1);
             panel1.Visible = true;
 
             panel1.Size = new Size(idcard.dimensions.Width * 10, idcard.dimensions.Height * 10);
-            panel1.Left = ((Width - panel1.Width) / 2)-20;
+            panel1.Left = ((Width - panel1.Width) / 2) - 20;
             panel1.Top = (Height - panel1.Height) / 2;
             rectangleShape1.Visible = true;
             rectangleShape1.Width = panel1.Width;
@@ -165,7 +168,7 @@ namespace IDCardManagement
                     }
                 idcard = new IDCard(connectionString, tableName, dimensions, backgroundImage, fields, selectedFields, title);
 
-                Form2_LoadFile(null, null);
+                Form2_LoadFile();
             }
         }
 
@@ -391,6 +394,59 @@ namespace IDCardManagement
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+        int gridStatus;
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            Graphics g = panel1.CreateGraphics();
+            if (gridStatus == 0)
+            {
+
+
+                Pen p = new Pen(Color.Gray);
+                p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+                int numOfCells = 50, cellSize = 30;
+                for (int i = 0; i < numOfCells; i++)
+                {
+                    // Vertical
+                    g.DrawLine(p, i * cellSize, 0, i * cellSize, numOfCells * cellSize);
+                    // Horizontal
+                    g.DrawLine(p, 0, i * cellSize, numOfCells * cellSize, i * cellSize);
+                }
+                gridStatus = 1;
+            }
+            else
+            {
+                gridStatus = 0;
+                //  panel1 = new Panel(); Form2_LoadFile(null, null);//
+                //g.Clear(Color.Transparent);
+                //panel1.BackgroundImage = idcard.backgroundImage;
+                panel1.Invalidate();
+            }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Form2_Paint(object sender, PaintEventArgs e)
+        {
+            if (gridStatus == 1)
+            {
+                Graphics g = e.Graphics;
+                Pen p = new Pen(Color.Gray);
+                p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+                int numOfCells = 50, cellSize = 30;
+                for (int i = 0; i < numOfCells; i++)
+                {
+                    // Vertical
+                    g.DrawLine(p, i * cellSize, 0, i * cellSize, numOfCells * cellSize);
+                    // Horizontal
+                    g.DrawLine(p, 0, i * cellSize, numOfCells * cellSize, i * cellSize);
+                }
+            }
         }
 
 

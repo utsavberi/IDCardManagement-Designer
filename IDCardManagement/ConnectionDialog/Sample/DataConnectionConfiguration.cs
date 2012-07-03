@@ -9,20 +9,14 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.IO;
-//using Syste
-//using System.Data.SqlClient;
-//using System.Data.SqlServerCe;
-//using Microsoft.SqlServerCe.Client;
+
 namespace Microsoft.Data.ConnectionUI
 {
-    
 	/// <summary>
 	/// Provide a default implementation for the storage of DataConnection Dialog UI configuration.
 	/// </summary>
 	public class DataConnectionConfiguration : IDataConnectionConfiguration
 	{
-        
-        
 		private const string configFileName = @"DataConnection.xml";
 		private string fullFilePath = null;
 		private XDocument xDoc = null;
@@ -70,8 +64,7 @@ namespace Microsoft.Data.ConnectionUI
 			dialog.DataSources.Add(DataSource.AccessDataSource);
 			dialog.DataSources.Add(DataSource.OdbcDataSource);
 			dialog.DataSources.Add(SqlCe.SqlCeDataSource);
-           
-            
+
 			dialog.UnspecifiedDataSource.Providers.Add(DataProvider.SqlDataProvider);
 			dialog.UnspecifiedDataSource.Providers.Add(DataProvider.OracleDataProvider);
 			dialog.UnspecifiedDataSource.Providers.Add(DataProvider.OleDBDataProvider);
