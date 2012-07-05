@@ -9,6 +9,7 @@ namespace IDCardManagement
 {
     public partial class Form1 : Form
     {
+        String dataSourceType;
         String connectionString;
         String tableName;
         System.Drawing.Size dimensions;
@@ -17,24 +18,25 @@ namespace IDCardManagement
         ArrayList selectedFields;
         String title;
         object senderform;
+        string primaryKey;
         public Form1(object sender)
         {
             this.senderform = sender;
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void chooseFileBtn_Click(object sender, EventArgs e)
         {
             openFileDialog1.Filter = "Image files (*.jpg;*.jpeg;*.bmp;*.gif;*.gif)|*.jpg;*.jpeg;*.bmp;*.gif;*.gif|All files (*.*)|*.*";
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 backgroundImage = new System.Drawing.Bitmap(openFileDialog1.FileName);
-                textBox1.Text = openFileDialog1.FileName;
+                backgroundImageTxt.Text = openFileDialog1.FileName;
                 pictureBox1.BackgroundImage = backgroundImage;
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void chooseDatabaseBtn_Click(object sender, EventArgs e)
         {
             DataConnectionDialog dcd = new DataConnectionDialog();
             DataConnectionConfiguration dcs = new DataConnectionConfiguration(null);
@@ -43,38 +45,76 @@ namespace IDCardManagement
             if (DataConnectionDialog.Show(dcd) == DialogResult.OK)
             {
 
-                textBox2.Text = dcd.ConnectionString;
+                databaseTxt.Text = dcd.ConnectionString;
                 connectionString = dcd.ConnectionString;
-                comboBox1.Enabled = true;
-                using (SqlCeConnection con = new SqlCeConnection(connectionString))
+                dataSourceType = dcd.SelectedDataSource.DisplayName;
+                Console.WriteLine("here it is :" + dataSourceType);
+                switch (dataSourceType)
                 {
-                    comboBox1.Items.Clear();
-                    con.Open();
-                    using (SqlCeCommand command = new SqlCeCommand("SELECT table_name FROM INFORMATION_SCHEMA.Tables", con))
-                    {
-                        SqlCeDataReader reader = command.ExecuteReader();
-                        while (reader.Read())
+                    case "Microsoft SQL Server Compact 3.5":
+                        try
                         {
-                            comboBox1.Items.Add(reader.GetString(0));
+                            using (SqlCeConnection con = new SqlCeConnection(connectionString))
+                            {
+                                tableTxt.Items.Clear();
+                                con.Open();
+                                using (SqlCeCommand command = new SqlCeCommand("SELECT table_name FROM INFORMATION_SCHEMA.Tables", con))
+                                {
+                                    SqlCeDataReader reader = command.ExecuteReader();
+                                    while (reader.Read())
+                                    {
+                                        tableTxt.Items.Add(reader.GetString(0));
 
+                                    }
+                                }
+                            }
+                            dcs.SaveConfiguration(dcd);
+                            tableTxt.Enabled = true;
                         }
-                    }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Unable to establish Connection..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        break;
+                    case "Microsoft SQL Server":
+                        try
+                        {
+                            using (SqlConnection con = new SqlConnection(connectionString))
+                            {
+                                tableTxt.Items.Clear();
+                                con.Open();
+                                using (SqlCommand command = new SqlCommand("SELECT table_name FROM INFORMATION_SCHEMA.Tables", con))
+                                {
+                                    SqlDataReader reader = command.ExecuteReader();
+                                    while (reader.Read())
+                                    {
+                                        tableTxt.Items.Add(reader.GetString(0));
+
+                                    }
+                                }
+                            }
+                            dcs.SaveConfiguration(dcd);
+                            tableTxt.Enabled = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Unable to establish Connection..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        break;
+                    default:
+                        MessageBox.Show("Not Implemented Yet..!!");
+                        break;
                 }
-                //textBox1.Text = dcd.SelectedDataSource.DisplayName;
             }
-            dcs.SaveConfiguration(dcd);
+
         }
 
 
-        private void test_Click(object sender, EventArgs e)
-        {
-            pictureBox1.Height = (int)numericUpDown1.Value * 3;
-            pictureBox1.Width = (int)numericUpDown2.Value * 3;
-        }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            title = textBox3.Text;
+            title = titleTxt.Text;
             dimensions = new System.Drawing.Size((int)numericUpDown1.Value, (int)numericUpDown2.Value);
             updateNavButtons();
 
@@ -118,7 +158,7 @@ namespace IDCardManagement
         }
 
         //next/finish button
-        private void button4_Click(object sender, EventArgs e)
+        private void nextFinishBtn_Click(object sender, EventArgs e)
         {
             if (tabControl1.SelectedIndex + 1 < tabControl1.TabCount)
             {
@@ -130,7 +170,7 @@ namespace IDCardManagement
                 (this.senderform as Form2).Hide();
                 selectedFields = new ArrayList();
                 foreach (string str in listBox2.Items) selectedFields.Add(str);
-                IDCard idcard = new IDCard(connectionString, tableName, dimensions, backgroundImage, fields, selectedFields, title);
+                IDCard idcard = new IDCard(connectionString, dataSourceType, tableName, primaryKey, dimensions, backgroundImage, fields, selectedFields, title);
                 Form2 frm = new Form2(idcard);
                 frm.Show();
                 this.Close();
@@ -157,83 +197,135 @@ namespace IDCardManagement
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void backBtn_Click(object sender, EventArgs e)
         {
             if (tabControl1.SelectedIndex - 1 >= 0)
                 tabControl1.SelectTab(tabControl1.SelectedIndex - 1);
             updateNavButtons();
         }
 
-        private void button6_Click(object sender, EventArgs e)
+        private void cancelBtn_Click(object sender, EventArgs e)
         {
             (this.senderform as Form2).Show();
             this.Close();
-            //if (MessageBox.Show("Really Quit?", "Confirm Exit", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            //{
-            //    this.Close();
-            //}
+
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void tableComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            tableName = (comboBox1.SelectedItem.ToString());
+            tableName = (tableTxt.SelectedItem.ToString());
             button4.Enabled = true;
             fields = new ArrayList();
-            using (SqlCeConnection con = new SqlCeConnection(connectionString))
+            switch (dataSourceType)
             {
-                con.Open();
-                using (SqlCeCommand command = new SqlCeCommand("SELECT column_name FROM information_schema.columns WHERE (table_name = '" + tableName + "')", con))
-                {
-
-                    SqlCeDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
+                case "Microsoft SQL Server Compact 3.5":
+                    try
                     {
-                        fields.Add(reader.GetString(0));
+                        using (SqlCeConnection con = new SqlCeConnection(connectionString))
+                        {
+                            con.Open();
+                            using (SqlCeCommand command = new SqlCeCommand("SELECT column_name FROM information_schema.columns WHERE (table_name = '" + tableName + "')", con))
+                            {
+
+                                SqlCeDataReader reader = command.ExecuteReader();
+                                while (reader.Read())
+                                {
+                                    fields.Add(reader.GetString(0));
+                                    primaryKeyTxt.Items.Add(reader.GetString(0));
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Unable to establish Connection..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    break;
+                case "Microsoft SQL Server":
+                    try
+                    {
+                        using (SqlConnection con = new SqlConnection(connectionString))
+                        {
+
+                            con.Open();
+                            using (SqlCommand command = new SqlCommand("SELECT column_name FROM information_schema.columns WHERE (table_name = '" + tableName + "')", con))
+                            {
+                                SqlDataReader reader = command.ExecuteReader();
+                                while (reader.Read())
+                                {
+                                    fields.Add(reader.GetString(0));
+                                    primaryKeyTxt.Items.Add(reader.GetString(0));
+
+                                }
+                            }
+                        }
 
                     }
-                }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Unable to establish Connection..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    break;
+                default:
+                    MessageBox.Show("Not Implemented Yet..!!");
+                    break;
             }
-            listBox1.DataSource = fields;
+
+            listBox1.Items.AddRange(fields.ToArray());
+            primaryKeyTxt.Enabled = true;
+
+        }
+        private void primaryKeyComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            primaryKey = primaryKeyTxt.Text;
 
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            listBox2.Items.Add(listBox1.SelectedItem);
+            if (listBox1.SelectedItem != null)
+            {
+                listBox2.Items.Add(listBox1.SelectedItem);
+                listBox1.Items.Remove(listBox1.SelectedItem);
+            }
 
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
-            listBox2.Items.Remove(listBox2.SelectedItem);
+            if (listBox2.SelectedItem != null)
+            {
+                listBox1.Items.Add(listBox2.SelectedItem);
+                listBox2.Items.Remove(listBox2.SelectedItem);
+            }
         }
 
         private void button9_Click(object sender, EventArgs e)
         {
             listBox2.Items.AddRange(listBox1.Items);
+            listBox1.Items.Clear();
         }
 
         private void button10_Click(object sender, EventArgs e)
         {
+            listBox1.Items.AddRange(listBox2.Items);
             listBox2.Items.Clear();
 
+
         }
 
-        private void textBox3_TextChanged(object sender, EventArgs e)
+        private void titleTxt_TextChanged(object sender, EventArgs e)
         {
-            label9.Text = textBox3.Text;
+            label9.Text = titleTxt.Text;
             title = label9.Text;
             if (label9.Width < pictureBox1.Width)
-            {
                 label9.Left = pictureBox1.Left + (pictureBox1.Width - label9.Width) / 2;
-
-            }
-            else { label9.AutoSize = false; label9.Width = pictureBox1.Width - 2; }
+            else label9.AutoSize = false; label9.Width = pictureBox1.Width - 2;
         }
 
-        private void textBox3_Leave(object sender, EventArgs e)
+        private void titleTxt_Leave(object sender, EventArgs e)
         {
-            title = textBox3.Text;
+            title = titleTxt.Text;
         }
 
     }

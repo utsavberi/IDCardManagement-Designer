@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 11
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDCardManagement", "IDCardManagement\IDCardManagement.csproj", "{3DF4F979-596B-483F-BACF-4F8A130C7FF9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDCardManagement-Designer", "IDCardManagement\IDCardManagement-Designer.csproj", "{3DF4F979-596B-483F-BACF-4F8A130C7FF9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Data.ConnectionUI", "ConnectionDialog\ConnectionUI\Microsoft.Data.ConnectionUI.csproj", "{139729CD-0F06-48E8-9F4A-08E78BB6575F}"
 EndProject

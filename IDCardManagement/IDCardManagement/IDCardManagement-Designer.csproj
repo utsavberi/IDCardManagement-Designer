@@ -166,6 +166,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="leaf.ico" />
+    <None Include="Resources\ruler.png" />
+    <None Include="Resources\edit.png" />
+    <Content Include="Resources\A.png" />
     <Content Include="water.ico" />
   </ItemGroup>
   <ItemGroup>
