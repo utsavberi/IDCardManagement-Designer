@@ -23,11 +23,18 @@ namespace IDCardManagement
         Panel panel1;
         Label titleLbl;
         String filename;
+        Mode mode;
+
+        enum Mode
+        {
+            none,addTextOn, addTextOff, addBarcodeOn, addBarcodeOff
+        }
 
         public Form2()
         {
             InitializeComponent();
             gridStatus = 0;
+            Mode mode = Mode.none;
 
         }
 
@@ -220,7 +227,22 @@ namespace IDCardManagement
         {
             X = Cursor.Position.X - panel1.Left;
             Y = Cursor.Position.Y - panel1.Top - 30;
-            if (addTextMode == 1)
+            if (mode == Mode.addBarcodeOn)
+            {
+                PictureBox tmp = new PictureBox();
+                tmp.BackgroundImageLayout = ImageLayout.Stretch;
+                tmp.BackgroundImage = new Bitmap (@"C:\Users\Archie\Documents\GitHub\IDCardManagement-Designer\IDCardManagement\IDCardManagement\Resources\barcodeImg.png");
+                tmp.Left = Xstart;
+                tmp.Top = Ystart;
+                tmp.Width = X-Xstart;
+                tmp.Height = Y-Ystart;
+                panel1.Controls.Add(tmp);
+                ControlMover.Init(tmp);
+                this.Cursor=Cursors.Default;
+                mode = Mode.none;
+
+            }
+            if (mode  == Mode.addTextOn)
             {
                 this.Cursor = Cursors.Arrow;
                 TextBox tmpTxt = new TextBox();
@@ -231,7 +253,7 @@ namespace IDCardManagement
                 tmpTxt.KeyUp += tmpTxt_KeyUp;
                 tmpTxt.Leave += tmpTxt_Leave;
                 panel1.Controls.Add(tmpTxt);
-                addTextMode = 0;
+                mode = Mode.none;
                 tmpTxt.Select();
 
             }
@@ -437,6 +459,8 @@ namespace IDCardManagement
 
         }
         int gridStatus;
+        private int Xstart;
+        private int Ystart;
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
@@ -496,14 +520,44 @@ namespace IDCardManagement
                 deleteToolStripButton_Click(null, null);
         }
 
-        int addTextMode = 0;
+        //int addTextMode = 0;
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
-            addTextMode = 1;
-            this.Cursor = Cursors.IBeam;
+            if (mode == Mode.none)
+            {
+                mode = Mode.addTextOn;
+                this.Cursor = Cursors.IBeam;
+            }
+        }
 
+        private void toolStripButton5_Click(object sender, EventArgs e)
+        {
+            if (mode == Mode.none)
+            {
+                mode = Mode.addBarcodeOn;
+                this.Cursor =Cursors.Cross;
+            }
+        }
+
+        private void panel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            Xstart = Cursor.Position.X - panel1.Left;
+            Ystart = Cursor.Position.Y - panel1.Top - 30;
+        }
+
+        private void panel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mode == Mode.addBarcodeOn && e.Button == MouseButtons.Left)
+            {
+                
+                Graphics g = panel1.CreateGraphics();
+                //Pen p = Pens.Transparent;
+                g.DrawRectangle(Pens.Gray, new Rectangle(Xstart ,Ystart ,e.X-Xstart,e.Y-Ystart));
+            }
         }
 
 
+
+       
     }
 }

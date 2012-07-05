@@ -169,6 +169,8 @@
     <None Include="Resources\ruler.png" />
     <None Include="Resources\edit.png" />
     <Content Include="Resources\A.png" />
+    <None Include="Resources\barcode.png" />
+    <Content Include="Resources\barcodeImg.png" />
     <Content Include="water.ico" />
   </ItemGroup>
   <ItemGroup>
