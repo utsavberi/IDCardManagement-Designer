@@ -55,9 +55,11 @@ namespace IDCardManagement
 
         private void Form2_LoadFile()
         {
+            //this.DoubleBuffered = true;
+            SetDoubleBuffered(panel1);
             if (idcard.backgroundImage != null) panel1.BackgroundImage = idcard.backgroundImage;
             toolStripStatusLabel1.Text = "Right Click to add Fields...";
-
+            enableItems();
             titleLbl.Text = idcard.title;
             titleLbl.MouseDown += tmplbl_MouseDown;
             ControlMover.Init(titleLbl);
@@ -88,6 +90,14 @@ namespace IDCardManagement
                 tmp.Click += tmpToolStripItem_Click;
             }
 
+        }
+
+        private void enableItems()
+        {
+            foreach (ToolStripItem ctl in toolStrip1.Items)
+            {
+                ctl.Enabled = true;
+            }
         }
 
 
@@ -232,10 +242,11 @@ namespace IDCardManagement
                 PictureBox tmp = new PictureBox();
                 tmp.BackgroundImageLayout = ImageLayout.Stretch;
                 tmp.BackgroundImage = new Bitmap (@"C:\Users\Archie\Documents\GitHub\IDCardManagement-Designer\IDCardManagement\IDCardManagement\Resources\barcodeImg.png");
-                tmp.Left = Xstart;
-                tmp.Top = Ystart;
-                tmp.Width = X-Xstart;
-                tmp.Height = Y-Ystart;
+                //tmp.Left = Xstart;
+                //tmp.Top = Ystart;
+                //tmp.Width = X-Xstart;
+                //tmp.Height = Y-Ystart;
+                tmp.SetBounds(rect.X,rect.Y,rect.Width,rect.Height);
                 panel1.Controls.Add(tmp);
                 ControlMover.Init(tmp);
                 this.Cursor=Cursors.Default;
@@ -491,10 +502,7 @@ namespace IDCardManagement
             }
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+       
 
         private void Form2_Paint(object sender, PaintEventArgs e)
         {
@@ -512,8 +520,23 @@ namespace IDCardManagement
                     g.DrawLine(p, 0, i * cellSize, numOfCells * cellSize, i * cellSize);
                 }
             }
+           
         }
 
+        public static void SetDoubleBuffered(System.Windows.Forms.Control c)
+        {
+           
+            if (System.Windows.Forms.SystemInformation.TerminalServerSession)
+                return;
+
+            System.Reflection.PropertyInfo aProp =
+                  typeof(System.Windows.Forms.Control).GetProperty(
+                        "DoubleBuffered",
+                        System.Reflection.BindingFlags.NonPublic |
+                        System.Reflection.BindingFlags.Instance);
+
+            aProp.SetValue(c, true, null);
+        }
         private void Form2_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
@@ -541,21 +564,28 @@ namespace IDCardManagement
 
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
-            Xstart = Cursor.Position.X - panel1.Left;
-            Ystart = Cursor.Position.Y - panel1.Top - 30;
+            
+            rect = new Rectangle(e.X, e.Y, 0, 0);
         }
-
+        Rectangle rect;
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
             if (mode == Mode.addBarcodeOn && e.Button == MouseButtons.Left)
             {
-                
-                Graphics g = panel1.CreateGraphics();
-                //Pen p = Pens.Transparent;
-                g.DrawRectangle(Pens.Gray, new Rectangle(Xstart ,Ystart ,e.X-Xstart,e.Y-Ystart));
-            }
-        }
+              
+                rect = new Rectangle(rect.Left, rect.Top, e.X - rect.Left, e.Y - rect.Top);
 
+            }
+           panel1.Invalidate();
+        }
+ private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            using (Pen pen = new Pen(Color.Red, 2))
+            {
+                e.Graphics.DrawRectangle(pen, rect);
+            }
+           
+        }
 
 
        

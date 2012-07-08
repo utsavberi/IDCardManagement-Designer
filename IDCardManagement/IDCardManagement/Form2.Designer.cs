@@ -124,6 +124,7 @@
             // saveToolStripButton
             // 
             this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveToolStripButton.Enabled = false;
             this.saveToolStripButton.Image = global::IDCardManagement.Properties.Resources.save_as;
             this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripButton.Name = "saveToolStripButton";
@@ -139,6 +140,7 @@
             // deleteToolStripButton
             // 
             this.deleteToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.deleteToolStripButton.Enabled = false;
             this.deleteToolStripButton.Image = global::IDCardManagement.Properties.Resources.delete;
             this.deleteToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.deleteToolStripButton.Name = "deleteToolStripButton";
@@ -154,6 +156,7 @@
             // fontToolStripComboBox
             // 
             this.fontToolStripComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(81)))), ((int)(((byte)(81)))));
+            this.fontToolStripComboBox.Enabled = false;
             this.fontToolStripComboBox.ForeColor = System.Drawing.Color.White;
             this.fontToolStripComboBox.Name = "fontToolStripComboBox";
             this.fontToolStripComboBox.Size = new System.Drawing.Size(200, 27);
@@ -163,6 +166,7 @@
             // fontSizeToolStripComboBox
             // 
             this.fontSizeToolStripComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(81)))), ((int)(((byte)(81)))));
+            this.fontSizeToolStripComboBox.Enabled = false;
             this.fontSizeToolStripComboBox.ForeColor = System.Drawing.Color.White;
             this.fontSizeToolStripComboBox.Items.AddRange(new object[] {
             "8",
@@ -182,6 +186,7 @@
             // 
             this.toolStripButton1.BackColor = System.Drawing.Color.Black;
             this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Enabled = false;
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
@@ -194,6 +199,7 @@
             // 
             this.toolStripButton2.BackColor = System.Drawing.Color.White;
             this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Enabled = false;
             this.toolStripButton2.ForeColor = System.Drawing.Color.White;
             this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -210,6 +216,7 @@
             // toolStripButton3
             // 
             this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton3.Enabled = false;
             this.toolStripButton3.Image = global::IDCardManagement.Properties.Resources.ruler;
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
@@ -220,6 +227,7 @@
             // toolStripButton4
             // 
             this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton4.Enabled = false;
             this.toolStripButton4.Image = global::IDCardManagement.Properties.Resources.A;
             this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton4.Name = "toolStripButton4";
@@ -230,6 +238,7 @@
             // toolStripButton5
             // 
             this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton5.Enabled = false;
             this.toolStripButton5.Image = global::IDCardManagement.Properties.Resources.barcode;
             this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton5.Name = "toolStripButton5";
