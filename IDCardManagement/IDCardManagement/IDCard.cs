@@ -9,7 +9,7 @@ namespace IDCardManagement
 {
     public class IDCard
     {
-        public String dataSourceType, primaryKey;
+        public String dataSourceType, primaryKey , extraTableName;
         public String connectionString;
         public String tableName;
         public System.Drawing.Size dimensions;
@@ -19,8 +19,9 @@ namespace IDCardManagement
 
 
 
-        public IDCard(string connectionString, string dataSourceType, string tableName,string primaryKey, System.Drawing.Size dimensions, System.Drawing.Image backgroundImage, ArrayList fields, ArrayList selectedFields,String title)
+        public IDCard(string connectionString, string dataSourceType, string tableName,string primaryKey, string extraTableName, System.Drawing.Size dimensions, System.Drawing.Image backgroundImage, ArrayList fields, ArrayList selectedFields,String title)
         {
+            this.extraTableName = extraTableName;
             this.primaryKey = primaryKey;
             this.dataSourceType = dataSourceType;
             this.title = title;

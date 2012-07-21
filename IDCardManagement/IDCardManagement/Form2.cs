@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using System.Data.SqlServerCe;
 
 
 namespace IDCardManagement
@@ -372,6 +373,7 @@ namespace IDCardManagement
                                         connectionString = reader.GetAttribute("connnectionString");
                                         dataSourceType = reader.GetAttribute("dataSourceType");
                                         primaryKey = reader.GetAttribute("primaryKey");
+                                        extraTableName = reader.GetAttribute("extraTableName");
                                         break;
                                     case "field":
                                         fields.Add(reader.ReadString());
@@ -385,7 +387,7 @@ namespace IDCardManagement
                                 #endregion
                             }
                         }
-                    idcard = new IDCard(connectionString, dataSourceType, tableName, primaryKey, dimensions, backgroundImage, fields, selectedFields, title);
+                    idcard = new IDCard(connectionString, dataSourceType, tableName, primaryKey,extraTableName ,dimensions, backgroundImage, fields, selectedFields, title);
                     Form2_LoadFile();
                 }
                 catch (Exception ex)
@@ -395,7 +397,8 @@ namespace IDCardManagement
 
             }
         }
-        
+
+        string extraTableName;
         //save
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
@@ -403,8 +406,46 @@ namespace IDCardManagement
             {
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                     filename = saveFileDialog1.FileName;
+                if (idcard.dataSourceType == "Microsoft SQL Server Compact 3.5")
+                {
+                    using (SqlCeConnection con = new SqlCeConnection(idcard.connectionString))
+                    {
+                        // string tmp = "if not exists (select * from sysobjects where name='" + idcard.tableName + "extra' and xtype='U')";
+                        try
+                        {
+                            con.Open();
+                            try
+                            {
+                                //Console.WriteLine("create table " + filename + "extra ( id nvarchar(100), pic varbinary(8000), printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )");
+                                extraTableName = System.IO.Path.GetFileNameWithoutExtension(filename) +DateTime.Now.Ticks+ "extra";
+                                using (SqlCeCommand cmd = new SqlCeCommand("create table " +extraTableName +" ( id nvarchar(100), pic varbinary(8000), printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )", con))
+                                {
+                                   cmd.ExecuteNonQuery();
+                                  
+                                }
+
+                            }
+                            catch (SqlCeException ex)
+                            {
+                                Console.WriteLine("myerror :" + ex.Message);
+                            }
+                        }
+                        catch (SqlCeException ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                    }
+
+
+
+                }
+                else if (idcard.dataSourceType == "Microsoft SQL Server")
+                {
+                    MessageBox.Show("Not implemented yet");
+                }
             }
             if (filename != null)
+            {
                 using (XmlWriter wrt = XmlWriter.Create(filename))
                 {
                     #region
@@ -439,7 +480,7 @@ namespace IDCardManagement
                         }
                         if (ctl is PictureBox)
                         {
-                           
+
                             if (ctl.Tag.ToString() == "barcode")
                             {
                                 wrt.WriteStartElement("barcode");
@@ -450,7 +491,7 @@ namespace IDCardManagement
                                 wrt.WriteEndElement();
                             }
                         }
-                        
+
 
                     }
 
@@ -462,6 +503,7 @@ namespace IDCardManagement
                     wrt.WriteAttributeString("width", idcard.dimensions.Width.ToString());
                     wrt.WriteAttributeString("tableName", idcard.tableName);
                     wrt.WriteAttributeString("title", titleLbl.Text);
+                    wrt.WriteAttributeString("extraTableName",extraTableName);
                     if (idcard.backgroundImage != null)
                     {
                         string imagebase64String;
@@ -477,7 +519,7 @@ namespace IDCardManagement
                     {
 
                         wrt.WriteElementString("field", str);
-                        
+
 
                     }
                     foreach (string str in idcard.selectedFields)
@@ -489,6 +531,9 @@ namespace IDCardManagement
                     wrt.WriteEndDocument();
                     #endregion
                 }
+
+                
+            }
         }
 
         //new

@@ -67,6 +67,7 @@ namespace IDCardManagement
 
                                     }
                                 }
+                                con.Close();
                             }
                             dcs.SaveConfiguration(dcd);
                             tableTxt.Enabled = true;
@@ -92,6 +93,7 @@ namespace IDCardManagement
 
                                     }
                                 }
+                                con.Close();
                             }
                             dcs.SaveConfiguration(dcd);
                             tableTxt.Enabled = true;
@@ -167,7 +169,7 @@ namespace IDCardManagement
                 (this.senderform as Form2).Hide();
                 selectedFields = new ArrayList();
                 foreach (string str in listBox2.Items) selectedFields.Add(str);
-                IDCard idcard = new IDCard(connectionString, dataSourceType, tableName, primaryKey, dimensions, backgroundImage, fields, selectedFields, title);
+                IDCard idcard = new IDCard(connectionString, dataSourceType, tableName, primaryKey,null , dimensions, backgroundImage, fields, selectedFields, title);
                 Form2 frm = new Form2(idcard);
                 frm.Show();
                 this.Close();
@@ -211,7 +213,7 @@ namespace IDCardManagement
         private void tableComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             tableName = (tableTxt.SelectedItem.ToString());
-            button4.Enabled = true;
+           
             fields = new ArrayList();
             switch (dataSourceType)
             {
@@ -231,6 +233,7 @@ namespace IDCardManagement
                                     primaryKeyTxt.Items.Add(reader.GetString(0));
                                 }
                             }
+                            con.Close();
                         }
                     }
                     catch (Exception ex)
@@ -255,6 +258,7 @@ namespace IDCardManagement
 
                                 }
                             }
+                            con.Close();
                         }
 
                     }
@@ -275,7 +279,7 @@ namespace IDCardManagement
         private void primaryKeyComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             primaryKey = primaryKeyTxt.Text;
-
+            button4.Enabled = true;
         }
 
         private void button7_Click(object sender, EventArgs e)
