@@ -222,7 +222,7 @@
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.Size = new System.Drawing.Size(23, 24);
             this.toolStripButton3.Text = "Toggle Grid";
-            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
+            this.toolStripButton3.Click += new System.EventHandler(this.gridToolStripButton_Click);
             // 
             // toolStripButton4
             // 
@@ -233,7 +233,7 @@
             this.toolStripButton4.Name = "toolStripButton4";
             this.toolStripButton4.Size = new System.Drawing.Size(23, 24);
             this.toolStripButton4.Text = "Add Text";
-            this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
+            this.toolStripButton4.Click += new System.EventHandler(this.addTexttoolStripButton_Click);
             // 
             // toolStripButton5
             // 
@@ -244,7 +244,7 @@
             this.toolStripButton5.Name = "toolStripButton5";
             this.toolStripButton5.Size = new System.Drawing.Size(23, 24);
             this.toolStripButton5.Text = "Add Barcode";
-            this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton5_Click);
+            this.toolStripButton5.Click += new System.EventHandler(this.addBarcodetoolStripButton_Click);
             // 
             // openFileDialog1
             // 
@@ -420,7 +420,6 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form2_Load);
             this.Click += new System.EventHandler(this.Form2_Click);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form2_Paint);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form2_KeyUp);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();

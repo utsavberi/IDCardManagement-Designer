@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControlMover.cs" />
+    <Compile Include="ControlResizer.cs" />
     <Compile Include="DataConnectionConfiguration.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

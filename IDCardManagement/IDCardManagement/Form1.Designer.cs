@@ -43,7 +43,13 @@
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.primaryKeyTxt = new System.Windows.Forms.ComboBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.tableTxt = new System.Windows.Forms.ComboBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.titleTxt = new System.Windows.Forms.TextBox();
@@ -60,22 +66,16 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.primaryKeyTxt = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -279,6 +279,34 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             // 
+            // primaryKeyTxt
+            // 
+            this.primaryKeyTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(81)))), ((int)(((byte)(81)))));
+            this.primaryKeyTxt.Enabled = false;
+            this.primaryKeyTxt.ForeColor = System.Drawing.Color.White;
+            this.primaryKeyTxt.FormattingEnabled = true;
+            this.primaryKeyTxt.Location = new System.Drawing.Point(372, 109);
+            this.primaryKeyTxt.Name = "primaryKeyTxt";
+            this.primaryKeyTxt.Size = new System.Drawing.Size(163, 21);
+            this.primaryKeyTxt.TabIndex = 7;
+            this.primaryKeyTxt.SelectedIndexChanged += new System.EventHandler(this.primaryKeyComboBox_SelectedIndexChanged);
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(81)))), ((int)(((byte)(81)))));
+            this.comboBox1.Enabled = false;
+            this.comboBox1.ForeColor = System.Drawing.Color.White;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "cm",
+            "inch"});
+            this.comboBox1.Location = new System.Drawing.Point(119, 30);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(73, 21);
+            this.comboBox1.TabIndex = 7;
+            this.comboBox1.Text = "cm";
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.tableComboBox_SelectedIndexChanged);
+            // 
             // tableTxt
             // 
             this.tableTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(81)))), ((int)(((byte)(81)))));
@@ -290,6 +318,53 @@
             this.tableTxt.Size = new System.Drawing.Size(132, 21);
             this.tableTxt.TabIndex = 7;
             this.tableTxt.SelectedIndexChanged += new System.EventHandler(this.tableComboBox_SelectedIndexChanged);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(81)))), ((int)(((byte)(81)))));
+            this.groupBox1.BackgroundImage = global::IDCardManagement.Properties.Resources.bg1;
+            this.groupBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.pictureBox1);
+            this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.groupBox1.Location = new System.Drawing.Point(6, 149);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(654, 341);
+            this.groupBox1.TabIndex = 7;
+            this.groupBox1.TabStop = false;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.Color.White;
+            this.label9.Location = new System.Drawing.Point(156, 57);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(30, 15);
+            this.label9.TabIndex = 1;
+            this.label9.Text = "Title";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.White;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Location = new System.Drawing.Point(143, 46);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(261, 146);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.label7.Location = new System.Drawing.Point(257, 112);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(109, 15);
+            this.label7.TabIndex = 4;
+            this.label7.Text = "Select Primary Key";
             // 
             // label6
             // 
@@ -492,80 +567,6 @@
             this.button6.UseVisualStyleBackColor = false;
             this.button6.Click += new System.EventHandler(this.cancelBtn_Click);
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(81)))), ((int)(((byte)(81)))));
-            this.groupBox1.BackgroundImage = global::IDCardManagement.Properties.Resources.bg1;
-            this.groupBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.pictureBox1);
-            this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.groupBox1.Location = new System.Drawing.Point(6, 149);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(654, 341);
-            this.groupBox1.TabIndex = 7;
-            this.groupBox1.TabStop = false;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.BackColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(156, 57);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(30, 15);
-            this.label9.TabIndex = 1;
-            this.label9.Text = "Title";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(143, 46);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(261, 146);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.label7.Location = new System.Drawing.Point(257, 112);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(109, 15);
-            this.label7.TabIndex = 4;
-            this.label7.Text = "Select Primary Key";
-            // 
-            // primaryKeyTxt
-            // 
-            this.primaryKeyTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(81)))), ((int)(((byte)(81)))));
-            this.primaryKeyTxt.ForeColor = System.Drawing.Color.White;
-            this.primaryKeyTxt.FormattingEnabled = true;
-            this.primaryKeyTxt.Location = new System.Drawing.Point(372, 109);
-            this.primaryKeyTxt.Name = "primaryKeyTxt";
-            this.primaryKeyTxt.Size = new System.Drawing.Size(163, 21);
-            this.primaryKeyTxt.TabIndex = 7;
-            this.primaryKeyTxt.SelectedIndexChanged += new System.EventHandler(this.primaryKeyComboBox_SelectedIndexChanged);
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(81)))), ((int)(((byte)(81)))));
-            this.comboBox1.Enabled = false;
-            this.comboBox1.ForeColor = System.Drawing.Color.White;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "cm",
-            "inch"});
-            this.comboBox1.Location = new System.Drawing.Point(119, 30);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(73, 21);
-            this.comboBox1.TabIndex = 7;
-            this.comboBox1.Text = "cm";
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.tableComboBox_SelectedIndexChanged);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -589,13 +590,13 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
