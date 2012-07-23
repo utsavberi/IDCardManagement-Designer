@@ -32,6 +32,19 @@ namespace IDCardManagement
             none, addTextOn, addTextOff, addBarcodeOn, addBarcodeOff
         }
 
+        public Form2(string fileopen)
+        {
+            
+            InitializeComponent();
+            gridStatus = 0;
+            mode = Mode.none;
+            if (fileopen != null)
+            {
+                filename = fileopen;
+                openLoadFile();
+            }
+
+        }
         public Form2()
         {
             InitializeComponent();
@@ -301,8 +314,16 @@ namespace IDCardManagement
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                isNew = false;
-                filename = openFileDialog1.FileName;
+               filename = openFileDialog1.FileName;
+               openLoadFile();
+
+            }
+        }
+
+        void openLoadFile()
+        {
+                 isNew = false;
+                
                 this.Text = filename + " - IDCard Designer";
 
                 ArrayList fields = new ArrayList();
@@ -394,8 +415,6 @@ namespace IDCardManagement
                 {
                     MessageBox.Show("Invalid file format", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
-            }
         }
 
         string extraTableName;
