@@ -36,7 +36,7 @@ namespace IDCardManagement
         {
             InitializeComponent();
             gridStatus = 0;
-            Mode mode = Mode.none;
+            mode = Mode.none;
 
         }
 
@@ -418,10 +418,15 @@ namespace IDCardManagement
                             {
                                 //Console.WriteLine("create table " + filename + "extra ( id nvarchar(100), pic varbinary(8000), printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )");
                                 extraTableName = System.IO.Path.GetFileNameWithoutExtension(filename) +DateTime.Now.Ticks+ "extra";
-                                using (SqlCeCommand cmd = new SqlCeCommand("create table " +extraTableName +" ( id nvarchar(100), pic varbinary(8000), printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )", con))
+                                using (SqlCeCommand cmd = new SqlCeCommand("create table " + extraTableName + " ( id nvarchar(100),  printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )", con))
                                 {
-                                   cmd.ExecuteNonQuery();
-                                  
+                                    cmd.ExecuteNonQuery();
+
+                                }
+                                using (SqlCeCommand cmd2 = new SqlCeCommand("create table " + extraTableName + "pic ( id nvarchar(100), pic varbinary(8000) )", con))
+                                {
+                                    cmd2.ExecuteNonQuery();
+
                                 }
 
                             }
