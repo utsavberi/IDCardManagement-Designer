@@ -125,6 +125,10 @@ namespace IDCardManagement
 
             label9.Top = pictureBox1.Top + 5;
             label9.Left = pictureBox1.Left + (pictureBox1.Width - label9.Width) / 2;
+
+            pictureBox2.Left = pictureBox1.Left + 5;
+            pictureBox2.Top = pictureBox1.Top + 5;
+            
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
@@ -327,6 +331,11 @@ namespace IDCardManagement
         private void titleTxt_Leave(object sender, EventArgs e)
         {
             title = titleTxt.Text;
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
 
     }

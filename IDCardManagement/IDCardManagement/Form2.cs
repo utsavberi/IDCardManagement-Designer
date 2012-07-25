@@ -27,6 +27,7 @@ namespace IDCardManagement
         Mode mode;
         Panel pictureContainerPanel;
 
+
         enum Mode
         {
             none, addTextOn, addTextOff, addBarcodeOn, addBarcodeOff
@@ -34,7 +35,7 @@ namespace IDCardManagement
 
         public Form2(string fileopen)
         {
-            
+
             InitializeComponent();
             gridStatus = 0;
             mode = Mode.none;
@@ -69,9 +70,17 @@ namespace IDCardManagement
 
         }
 
-        bool isNew ;
+        bool isNew;
         private void Form2_LoadFile()
         {
+            toolStripMenuItem2.Click += toolStripMenuItem_Click;
+            toolStripMenuItem3.Click += toolStripMenuItem_Click;
+            toolStripMenuItem4.Click += toolStripMenuItem_Click;
+            toolStripMenuItem5.Click += toolStripMenuItem_Click;
+            toolStripMenuItem6.Click += toolStripMenuItem_Click;
+            toolStripMenuItem7.Click += toolStripMenuItem_Click;
+            toolStripMenuItem8.Click += toolStripMenuItem_Click;
+          
             SetDoubleBuffered(panel1);
             if (idcard.backgroundImage != null) panel1.BackgroundImage = idcard.backgroundImage;
             toolStripStatusLabel1.Text = "Right Click to add Fields...";
@@ -88,7 +97,7 @@ namespace IDCardManagement
                 pictureContainerPanel.BackgroundImage = global::IDCardManagement.Properties.Resources.avatar;
                 ControlMover.Init(pictureContainerPanel);
                 ControlResizer.Init(pictureContainerPanel);
-                pictureContainerPanel.Tag = "IDPictureBox";
+                pictureContainerPanel.Tag = "IDpictureBox";
                 panel1.Controls.Add(pictureContainerPanel);
             }
 
@@ -106,8 +115,8 @@ namespace IDCardManagement
 
             panel1.Visible = true;
             panel1.Size = new Size(idcard.dimensions.Width * 10, idcard.dimensions.Height * 10);
-            panel1.Left = ((Width - panel1.Width) / 2) - 20;
-            panel1.Top = (Height - panel1.Height) / 2;
+            panel1.Left = (((Width - panel1.Width) / 2) - 20)>40?(((Width - panel1.Width) / 2) - 20):80;
+            panel1.Top = ((Height - panel1.Height) / 2 - 60)>80?((Height - panel1.Height) / 2 - 60):80;
 
             rectangleShape1.Visible = true;
             rectangleShape1.SetBounds(panel1.Left + 5, panel1.Top + 5, panel1.Width, panel1.Height);
@@ -123,14 +132,15 @@ namespace IDCardManagement
 
         private void enableItems()
         {
+            toolStripDropDownButton1.Enabled = true;
             foreach (ToolStripItem ctl in toolStrip1.Items)
             {
                 ctl.Enabled = true;
             }
         }
 
-       
-  
+
+
 
         private void ptmp_MouseUp(object sender, MouseEventArgs e)
         {
@@ -160,7 +170,7 @@ namespace IDCardManagement
 
 
         }
-        
+
         private void tmpToolStripItem_Click(object sender, EventArgs e)
         {
 
@@ -169,13 +179,13 @@ namespace IDCardManagement
             tmp.BackColor = Color.Transparent;
             tmp.Text = clickedItem.Text;
             tmp.Left = X;
-            tmp.Top = Y;
+            tmp.Top = Y-50;
             tmp.AutoSize = true;
             tmp.MouseDown += tmplbl_MouseDown;
             ControlMover.Init(tmp);
             panel1.Controls.Add(tmp);
         }
-
+        int barcodeCount=0;
         private void panel1_MouseUp(object sender, MouseEventArgs e)
         {
 
@@ -184,6 +194,7 @@ namespace IDCardManagement
             if (mode == Mode.addBarcodeOn)
             {
                 PictureBox barcodePictureBox = new PictureBox();
+                barcodePictureBox.Tag = "barcode";
                 barcodePictureBox.BackgroundImageLayout = ImageLayout.Stretch;
                 barcodePictureBox.BackgroundImage = new Bitmap(@"C:\Users\Archie\Documents\GitHub\IDCardManagement-Designer\IDCardManagement\IDCardManagement\Resources\barcodeImg.png");
                 barcodePictureBox.SetBounds(rect.X, rect.Y, rect.Width, rect.Height);
@@ -192,7 +203,8 @@ namespace IDCardManagement
                 this.Cursor = Cursors.Default;
                 mode = Mode.none;
                 rect = new Rectangle(0, 0, 0, 0);
-                barcodePictureBox.Click +=barccodePictureBox_Click;
+                barcodePictureBox.Click += barccodePictureBox_Click;
+                barcodeCount = 1;
 
             }
             if (mode == Mode.addTextOn)
@@ -314,107 +326,120 @@ namespace IDCardManagement
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-               filename = openFileDialog1.FileName;
-               openLoadFile();
+                filename = openFileDialog1.FileName;
+                openLoadFile();
 
             }
         }
 
         void openLoadFile()
         {
-                 isNew = false;
-                
-                this.Text = filename + " - IDCard Designer";
+            isNew = false;
+            //panel1.CreateGraphics().Transform;
 
-                ArrayList fields = new ArrayList();
-                ArrayList selectedFields = new ArrayList();
+            this.Text = filename + " - IDCard Designer";
 
-                Image backgroundImage = null;
-                string connectionString = "", tableName = "", title = "", dataSourceType = "", primaryKey = "";
+            ArrayList fields = new ArrayList();
+            ArrayList selectedFields = new ArrayList();
 
-                Size dimensions = new Size();
+            Image backgroundImage = null;
+            string connectionString = "", tableName = "", title = "", dataSourceType = "", primaryKey = "";
 
-                panel1.Controls.Clear();
-                panel1.ContextMenuStrip = contextMenuStrip1;
+            Size dimensions = new Size();
 
-                try
-                {
-                    using (XmlTextReader reader = new XmlTextReader(filename))
-                        while (reader.Read())
+            panel1.Controls.Clear();
+            panel1.ContextMenuStrip = contextMenuStrip1;
+
+            try
+            {
+                using (XmlTextReader reader = new XmlTextReader(filename))
+                    while (reader.Read())
+                    {
+                        if (reader.NodeType == XmlNodeType.Element)
                         {
-                            if (reader.NodeType == XmlNodeType.Element)
+                            #region
+                            switch (reader.Name)
                             {
-                                #region
-                                switch (reader.Name)
-                                {
-                                    case "label":
-                                        Label tmp = new Label();
-                                        tmp.Text = reader.GetAttribute("text");
-                                        tmp.Top = Convert.ToInt32(reader.GetAttribute("top"));
-                                        tmp.Left = Convert.ToInt32(reader.GetAttribute("left"));
-                                        panel1.Controls.Add(tmp);
-                                        tmp.MouseDown += tmplbl_MouseDown;
-                                        ControlMover.Init(tmp);
-                                        tmp.AutoSize = true;
-                                        tmp.Font = (Font)TypeDescriptor.GetConverter(typeof(Font)).ConvertFromString(reader.GetAttribute("font"));
-                                        tmp.BackColor = Color.FromArgb(Convert.ToInt32(reader.GetAttribute("backcolor")));
-                                        tmp.ForeColor = Color.FromArgb(Convert.ToInt32(reader.GetAttribute("forecolor")));
-                                        break;
-                                    case "IDpictureBox":
+                                case "label":
+                                    Label tmp = new Label();
+                                    tmp.Text = reader.GetAttribute("text");
+                                    tmp.Top = Convert.ToInt32(reader.GetAttribute("top"));
+                                    tmp.Left = Convert.ToInt32(reader.GetAttribute("left"));
+                                    panel1.Controls.Add(tmp);
+                                    tmp.MouseDown += tmplbl_MouseDown;
+                                    ControlMover.Init(tmp);
+                                    tmp.AutoSize = true;
+                                    tmp.Font = (Font)TypeDescriptor.GetConverter(typeof(Font)).ConvertFromString(reader.GetAttribute("font"));
+                                    tmp.BackColor = Color.FromArgb(Convert.ToInt32(reader.GetAttribute("backcolor")));
+                                    tmp.ForeColor = Color.FromArgb(Convert.ToInt32(reader.GetAttribute("forecolor")));
+                                    break;
+                                case "IDpictureBox":
 
-                                        pictureContainerPanel = new Panel();
-                                        pictureContainerPanel.Tag = "IDpictureBox";
-                                        pictureContainerPanel.BackgroundImage = global::IDCardManagement.Properties.Resources.avatar;
-                                        pictureContainerPanel.BackgroundImageLayout = ImageLayout.Stretch;
-                                        pictureContainerPanel.Left = Convert.ToInt32(reader.GetAttribute("left"));
-                                        pictureContainerPanel.Top = Convert.ToInt32(reader.GetAttribute("top"));
-                                        pictureContainerPanel.Height = Convert.ToInt32(reader.GetAttribute("height"));
-                                        pictureContainerPanel.Width = Convert.ToInt32(reader.GetAttribute("width"));
-                                        panel1.Controls.Add(pictureContainerPanel);
-                                        ControlResizer.Init(pictureContainerPanel);
-                                        ControlMover.Init(pictureContainerPanel);
-                                        break;
+                                    pictureContainerPanel = new Panel();
+                                    pictureContainerPanel.Tag = "IDpictureBox";
+                                    pictureContainerPanel.BackgroundImage = global::IDCardManagement.Properties.Resources.avatar;
+                                    pictureContainerPanel.BackgroundImageLayout = ImageLayout.Stretch;
+                                    pictureContainerPanel.Left = Convert.ToInt32(reader.GetAttribute("left"));
+                                    pictureContainerPanel.Top = Convert.ToInt32(reader.GetAttribute("top"));
+                                    pictureContainerPanel.Height = Convert.ToInt32(reader.GetAttribute("height"));
+                                    pictureContainerPanel.Width = Convert.ToInt32(reader.GetAttribute("width"));
+                                    panel1.Controls.Add(pictureContainerPanel);
+                                    ControlResizer.Init(pictureContainerPanel);
+                                    ControlMover.Init(pictureContainerPanel);
+                                    break;
 
-                                    case "idCard":
-                                        dimensions.Height = Convert.ToInt32(reader.GetAttribute("height"));
-                                        dimensions.Width = Convert.ToInt32(reader.GetAttribute("width"));
-                                        String base64String;
-                                        if ((base64String = reader.GetAttribute("backgroundImage")) != null)
-                                        {
-                                            byte[] imageBytes = Convert.FromBase64String(base64String);
-                                            MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
-                                            // Convert byte[] to Image
-                                            ms.Write(imageBytes, 0, imageBytes.Length);
-                                            backgroundImage = Image.FromStream(ms, true);
-                                            
+                                case "barcode":
+                                    PictureBox barcodePicture = new PictureBox();
+                                    barcodePicture.Left = Convert.ToInt32(reader.GetAttribute("left"));
+                                    barcodePicture.Top = Convert.ToInt32(reader.GetAttribute("top"));
+                                    barcodePicture.Height = Convert.ToInt32(reader.GetAttribute("height"));
+                                    barcodePicture.Width = Convert.ToInt32(reader.GetAttribute("width"));
+                                    panel1.Controls.Add(barcodePicture);
+                                    barcodePicture.BackgroundImageLayout = ImageLayout.Stretch;
+                                    barcodePicture.BackgroundImage = new Bitmap(@"C:\Users\Archie\Documents\GitHub\IDCardManagement-Designer\IDCardManagement\IDCardManagement\Resources\barcodeImg.png");
+                                    ControlMover.Init(barcodePicture);
+                                    barcodeCount = 1;
+                                    break;
+                                case "idCard":
+                                    dimensions.Height = Convert.ToInt32(reader.GetAttribute("height"));
+                                    dimensions.Width = Convert.ToInt32(reader.GetAttribute("width"));
+                                    String base64String;
+                                    if ((base64String = reader.GetAttribute("backgroundImage")) != null)
+                                    {
+                                        byte[] imageBytes = Convert.FromBase64String(base64String);
+                                        MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
+                                        // Convert byte[] to Image
+                                        ms.Write(imageBytes, 0, imageBytes.Length);
+                                        backgroundImage = Image.FromStream(ms, true);
 
-                                        }
-                                        title = reader.GetAttribute("title");
-                                        tableName = reader.GetAttribute("tableName");
-                                        connectionString = reader.GetAttribute("connnectionString");
-                                        dataSourceType = reader.GetAttribute("dataSourceType");
-                                        primaryKey = reader.GetAttribute("primaryKey");
-                                        extraTableName = reader.GetAttribute("extraTableName");
-                                        break;
-                                    case "field":
-                                        fields.Add(reader.ReadString());
-                                        break;
-                                    case "selectedField":
-                                        selectedFields.Add(reader.ReadString());
-                                        break;
 
-                                }
+                                    }
+                                    title = reader.GetAttribute("title");
+                                    tableName = reader.GetAttribute("tableName");
+                                    connectionString = reader.GetAttribute("connectionString");
+                                    dataSourceType = reader.GetAttribute("dataSourceType");
+                                    primaryKey = reader.GetAttribute("primaryKey");
+                                    extraTableName = reader.GetAttribute("extraTableName");
+                                    break;
+                                case "field":
+                                    fields.Add(reader.ReadString());
+                                    break;
+                                case "selectedField":
+                                    selectedFields.Add(reader.ReadString());
+                                    break;
 
-                                #endregion
                             }
+
+                            #endregion
                         }
-                    idcard = new IDCard(connectionString, dataSourceType, tableName, primaryKey,extraTableName ,dimensions, backgroundImage, fields, selectedFields, title);
-                    Form2_LoadFile();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Invalid file format", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                    }
+                idcard = new IDCard(connectionString, dataSourceType, tableName, primaryKey, extraTableName, dimensions, backgroundImage, fields, selectedFields, title);
+                Form2_LoadFile();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Invalid file format", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         string extraTableName;
@@ -436,7 +461,7 @@ namespace IDCardManagement
                             try
                             {
                                 //Console.WriteLine("create table " + filename + "extra ( id nvarchar(100), pic varbinary(8000), printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )");
-                                extraTableName = System.IO.Path.GetFileNameWithoutExtension(filename) +DateTime.Now.Ticks+ "extra";
+                                extraTableName = System.IO.Path.GetFileNameWithoutExtension(filename) + DateTime.Now.Ticks + "extra";
                                 using (SqlCeCommand cmd = new SqlCeCommand("create table " + extraTableName + " ( id nvarchar(100),  printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )", con))
                                 {
                                     cmd.ExecuteNonQuery();
@@ -470,6 +495,7 @@ namespace IDCardManagement
             }
             if (filename != null)
             {
+                toolStripMenuItem_Click(toolStripMenuItem2, null);
                 using (XmlWriter wrt = XmlWriter.Create(filename))
                 {
                     #region
@@ -492,7 +518,7 @@ namespace IDCardManagement
                         }
                         if (ctl is Panel)
                         {
-                            if ((ctl as Panel).Tag.ToString() == "IDPictureBox")
+                            if ((ctl as Panel).Tag.ToString() == "IDpictureBox")
                             {
                                 wrt.WriteStartElement("IDpictureBox");
                                 wrt.WriteAttributeString("left", ((Panel)ctl).Left.ToString());
@@ -527,7 +553,7 @@ namespace IDCardManagement
                     wrt.WriteAttributeString("width", idcard.dimensions.Width.ToString());
                     wrt.WriteAttributeString("tableName", idcard.tableName);
                     wrt.WriteAttributeString("title", titleLbl.Text);
-                    wrt.WriteAttributeString("extraTableName",extraTableName);
+                    wrt.WriteAttributeString("extraTableName", extraTableName);
                     if (idcard.backgroundImage != null)
                     {
                         string imagebase64String;
@@ -556,7 +582,7 @@ namespace IDCardManagement
                     #endregion
                 }
 
-                
+
             }
         }
 
@@ -586,7 +612,7 @@ namespace IDCardManagement
         {
 
         }
-        
+
         int gridStatus;
         private void gridToolStripButton_Click(object sender, EventArgs e)
         {
@@ -616,7 +642,7 @@ namespace IDCardManagement
 
             aProp.SetValue(c, true, null);
         }
-        
+
         private void Form2_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
@@ -639,16 +665,20 @@ namespace IDCardManagement
             {
                 //Form frm = new Form();
                 //CheckedListBox chktmp=new CheckedListBox();
-               // foreach (string str in idcard.fields)
-                 //   chktmp.Items.Add(str);
-                    //RadioButton  chktmp = new RadioButton();
+                // foreach (string str in idcard.fields)
+                //   chktmp.Items.Add(str);
+                //RadioButton  chktmp = new RadioButton();
 
                 //frm.Controls.Add(chktmp);
                 //frm.Show();
-                    
+
                 //frm.Controls.Add();
-                mode = Mode.addBarcodeOn;
-                this.Cursor = Cursors.Cross;
+                if (barcodeCount == 0)
+                {
+                    mode = Mode.addBarcodeOn;
+                    this.Cursor = Cursors.Cross;
+                }
+                else MessageBox.Show("Only one barcode allowed at a time..");
             }
         }
 
@@ -660,7 +690,7 @@ namespace IDCardManagement
 
         Rectangle rect;
         private bool mouseClicked;
-       
+
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
             if (mode == Mode.addBarcodeOn && e.Button == MouseButtons.Left)
@@ -671,7 +701,7 @@ namespace IDCardManagement
             }
             panel1.Invalidate();
         }
-        
+
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
             if (mode == Mode.addBarcodeOn)
@@ -696,6 +726,71 @@ namespace IDCardManagement
             }
 
         }
+
+        private int round(double a)
+        {
+            return (int)Math.Round(a, MidpointRounding.AwayFromZero);
+        }
+
+        private void zoom(double factor)
+        {
+            if (factor != 0)
+            {
+                if (factor < 0) factor = 1 / Math.Abs(factor);
+                panel1.Size = new Size(round(panel1.Size.Width * factor),round( panel1.Size.Height * factor));
+                rectangleShape1.Size = new Size(round(rectangleShape1.Size.Width * factor), round(rectangleShape1.Size.Height * factor));
+                foreach (Control ctl in panel1.Controls)
+                {
+                    ctl.Size = new Size(round(ctl.Size.Width * factor), round(ctl.Size.Height * factor));
+                    ctl.Location = new Point(round(ctl.Location.X  * factor), round(ctl.Location.Y  * factor));
+                    //ctl.Location = new Point(round(ctl.Location.X + ctl.Location.X * factor), round(ctl.Location.Y + ctl.Location.Y * factor));
+                    if (ctl is Label) (ctl as Label).Font = new Font((ctl as Label).Font.FontFamily.ToString(), (float)((ctl as Label).Font.Size * factor));
+                }
+            }
+        }
+        private void toolStripButton6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void fontToolStripComboBox_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripDropDownButton1_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+
+
+        }
+        double currentZoom=1;
+        private void toolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            toolStripDropDownButton1.Text = (sender as ToolStripMenuItem).Text;
+            //toolStripDropDownButton1.Text = toolStripDropDownButton1.s
+            double factor =  Convert.ToInt32(toolStripDropDownButton1.Text.Substring(0,toolStripDropDownButton1.Text.IndexOf("%")));
+            factor = factor / 100;
+            double tmp = factor;
+            factor = factor / currentZoom;
+            currentZoom = tmp;
+           // Console.WriteLine("factor :"+factor+" currentZoom :"+currentZoom);
+            zoom(factor);
+           
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form2_Resize(object sender, EventArgs e)
+        {
+           // workspacePanel.Width = this.Width-30;
+           // workspacePanel.Height = this.Height-130;
+        }
+
 
 
 
