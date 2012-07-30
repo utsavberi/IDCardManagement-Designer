@@ -9,7 +9,7 @@ namespace IDCardManagement
 {
     class ControlResizer
     {
-        public static void Init(Panel control)
+        public static void Init(Control control)
         {
             bool mouseClicked = false;
 

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Data.SqlServerCe;
+using System.Data.SqlClient;
 
 
 namespace IDCardManagement
@@ -80,7 +81,7 @@ namespace IDCardManagement
             toolStripMenuItem6.Click += toolStripMenuItem_Click;
             toolStripMenuItem7.Click += toolStripMenuItem_Click;
             toolStripMenuItem8.Click += toolStripMenuItem_Click;
-          
+
             SetDoubleBuffered(panel1);
             if (idcard.backgroundImage != null) panel1.BackgroundImage = idcard.backgroundImage;
             toolStripStatusLabel1.Text = "Right Click to add Fields...";
@@ -115,8 +116,8 @@ namespace IDCardManagement
 
             panel1.Visible = true;
             panel1.Size = new Size(idcard.dimensions.Width * 10, idcard.dimensions.Height * 10);
-            panel1.Left = (((Width - panel1.Width) / 2) - 20)>40?(((Width - panel1.Width) / 2) - 20):80;
-            panel1.Top = ((Height - panel1.Height) / 2 - 60)>80?((Height - panel1.Height) / 2 - 60):80;
+            panel1.Left = (((Width - panel1.Width) / 2) - 20) > 40 ? (((Width - panel1.Width) / 2) - 20) : 80;
+            panel1.Top = ((Height - panel1.Height) / 2 - 60) > 80 ? ((Height - panel1.Height) / 2 - 60) : 80;
 
             rectangleShape1.Visible = true;
             rectangleShape1.SetBounds(panel1.Left + 5, panel1.Top + 5, panel1.Width, panel1.Height);
@@ -138,9 +139,6 @@ namespace IDCardManagement
                 ctl.Enabled = true;
             }
         }
-
-
-
 
         private void ptmp_MouseUp(object sender, MouseEventArgs e)
         {
@@ -167,10 +165,8 @@ namespace IDCardManagement
             fontSizeToolStripComboBox.Text = ((int)tmp.Font.Size).ToString();
             toolStripButton1.BackColor = tmp.ForeColor;
             toolStripButton2.BackColor = tmp.BackColor;
-
-
         }
-
+        int displacementY = 50; //displacement in Y due to toolbar
         private void tmpToolStripItem_Click(object sender, EventArgs e)
         {
 
@@ -179,33 +175,34 @@ namespace IDCardManagement
             tmp.BackColor = Color.Transparent;
             tmp.Text = clickedItem.Text;
             tmp.Left = X;
-            tmp.Top = Y-50;
+            tmp.Top = Y - displacementY;
             tmp.AutoSize = true;
             tmp.MouseDown += tmplbl_MouseDown;
             ControlMover.Init(tmp);
             panel1.Controls.Add(tmp);
         }
-        int barcodeCount=0;
+
+        int barcodeCount = 0;
         private void panel1_MouseUp(object sender, MouseEventArgs e)
         {
 
             X = Cursor.Position.X - panel1.Left;
-            Y = Cursor.Position.Y - panel1.Top - 30;
+            Y = Cursor.Position.Y - panel1.Top - displacementY;
             if (mode == Mode.addBarcodeOn)
             {
                 PictureBox barcodePictureBox = new PictureBox();
                 barcodePictureBox.Tag = "barcode";
                 barcodePictureBox.BackgroundImageLayout = ImageLayout.Stretch;
-                barcodePictureBox.BackgroundImage = new Bitmap(@"C:\Users\Archie\Documents\GitHub\IDCardManagement-Designer\IDCardManagement\IDCardManagement\Resources\barcodeImg.png");
+                barcodePictureBox.BackgroundImage = Properties.Resources.barcodeImg;//new Bitmap(@"C:\Users\Archie\Documents\GitHub\IDCardManagement-Designer\IDCardManagement\IDCardManagement\Resources\barcodeImg.png");
                 barcodePictureBox.SetBounds(rect.X, rect.Y, rect.Width, rect.Height);
                 panel1.Controls.Add(barcodePictureBox);
                 ControlMover.Init(barcodePictureBox);
+                ControlResizer.Init(barcodePictureBox);
                 this.Cursor = Cursors.Default;
                 mode = Mode.none;
                 rect = new Rectangle(0, 0, 0, 0);
                 barcodePictureBox.Click += barccodePictureBox_Click;
                 barcodeCount = 1;
-
             }
             if (mode == Mode.addTextOn)
             {
@@ -308,8 +305,15 @@ namespace IDCardManagement
         private void deleteToolStripButton_Click(object sender, EventArgs e)
         {
             foreach (Control ctl in panel1.Controls)
+            {
                 if (ctl is Label && ((Label)ctl).BorderStyle == BorderStyle.FixedSingle)
                     panel1.Controls.Remove(ctl);
+                if (ctl is PictureBox && ((PictureBox)ctl).BorderStyle == BorderStyle.FixedSingle)
+                {
+                    if (((PictureBox)ctl).Tag.ToString() == "barcode") barcodeCount = 0;
+                    panel1.Controls.Remove(ctl);
+                }
+            }
         }
 
         private void forecolorToolStripButton_Click(object sender, EventArgs e)
@@ -490,7 +494,38 @@ namespace IDCardManagement
                 }
                 else if (idcard.dataSourceType == "Microsoft SQL Server")
                 {
-                    MessageBox.Show("Not implemented yet");
+                    using (SqlConnection con = new SqlConnection(idcard.connectionString))
+                    {
+                        // string tmp = "if not exists (select * from sysobjects where name='" + idcard.tableName + "extra' and xtype='U')";
+                        try
+                        {
+                            con.Open();
+                            try
+                            {
+                                //Console.WriteLine("create table " + filename + "extra ( id nvarchar(100), pic varbinary(8000), printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )");
+                                extraTableName = System.IO.Path.GetFileNameWithoutExtension(filename) + DateTime.Now.Ticks + "extra";
+                                using (SqlCommand cmd = new SqlCommand("create table " + extraTableName + " ( id nvarchar(100),  printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )", con))
+                                {
+                                    cmd.ExecuteNonQuery();
+
+                                }
+                                using (SqlCommand cmd2 = new SqlCommand("create table " + extraTableName + "pic ( id nvarchar(100), pic varbinary(8000) )", con))
+                                {
+                                    cmd2.ExecuteNonQuery();
+
+                                }
+
+                            }
+                            catch (SqlException ex)
+                            {
+                                Console.WriteLine("" + ex.Message);
+                            }
+                        }
+                        catch (SqlException ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                    }
                 }
             }
             if (filename != null)
@@ -715,7 +750,7 @@ namespace IDCardManagement
                 Graphics g = e.Graphics;
                 Pen p = new Pen(Color.Gray);
                 p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
-                int numOfCells = 50, cellSize = 30;
+                int numOfCells = 150, cellSize = 30;
                 for (int i = 0; i < numOfCells; i++)
                 {
                     // Vertical
@@ -737,12 +772,12 @@ namespace IDCardManagement
             if (factor != 0)
             {
                 if (factor < 0) factor = 1 / Math.Abs(factor);
-                panel1.Size = new Size(round(panel1.Size.Width * factor),round( panel1.Size.Height * factor));
+                panel1.Size = new Size(round(panel1.Size.Width * factor), round(panel1.Size.Height * factor));
                 rectangleShape1.Size = new Size(round(rectangleShape1.Size.Width * factor), round(rectangleShape1.Size.Height * factor));
                 foreach (Control ctl in panel1.Controls)
                 {
                     ctl.Size = new Size(round(ctl.Size.Width * factor), round(ctl.Size.Height * factor));
-                    ctl.Location = new Point(round(ctl.Location.X  * factor), round(ctl.Location.Y  * factor));
+                    ctl.Location = new Point(round(ctl.Location.X * factor), round(ctl.Location.Y * factor));
                     //ctl.Location = new Point(round(ctl.Location.X + ctl.Location.X * factor), round(ctl.Location.Y + ctl.Location.Y * factor));
                     if (ctl is Label) (ctl as Label).Font = new Font((ctl as Label).Font.FontFamily.ToString(), (float)((ctl as Label).Font.Size * factor));
                 }
@@ -764,20 +799,20 @@ namespace IDCardManagement
 
 
         }
-        double currentZoom=1;
+        double currentZoom = 1;
         private void toolStripMenuItem_Click(object sender, EventArgs e)
         {
 
             toolStripDropDownButton1.Text = (sender as ToolStripMenuItem).Text;
             //toolStripDropDownButton1.Text = toolStripDropDownButton1.s
-            double factor =  Convert.ToInt32(toolStripDropDownButton1.Text.Substring(0,toolStripDropDownButton1.Text.IndexOf("%")));
+            double factor = Convert.ToInt32(toolStripDropDownButton1.Text.Substring(0, toolStripDropDownButton1.Text.IndexOf("%")));
             factor = factor / 100;
             double tmp = factor;
             factor = factor / currentZoom;
             currentZoom = tmp;
-           // Console.WriteLine("factor :"+factor+" currentZoom :"+currentZoom);
+            // Console.WriteLine("factor :"+factor+" currentZoom :"+currentZoom);
             zoom(factor);
-           
+
         }
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
@@ -787,8 +822,8 @@ namespace IDCardManagement
 
         private void Form2_Resize(object sender, EventArgs e)
         {
-           // workspacePanel.Width = this.Width-30;
-           // workspacePanel.Height = this.Height-130;
+            // workspacePanel.Width = this.Width-30;
+            // workspacePanel.Height = this.Height-130;
         }
 
 

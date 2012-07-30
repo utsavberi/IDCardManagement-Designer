@@ -88,6 +88,13 @@ namespace IDCardManagement.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap barcodeImg {
+            get {
+                object obj = ResourceManager.GetObject("barcodeImg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap bg1 {
             get {
                 object obj = ResourceManager.GetObject("bg1", resourceCulture);
