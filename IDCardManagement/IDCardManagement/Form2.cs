@@ -33,7 +33,7 @@ namespace IDCardManagement
         {
             none, addTextOn, addTextOff, addBarcodeOn, addBarcodeOff
         }
-
+        //called when double-click on .idc file
         public Form2(string fileopen)
         {
 
@@ -480,7 +480,7 @@ namespace IDCardManagement
                             }
                             catch (SqlCeException ex)
                             {
-                                Console.WriteLine("myerror :" + ex.Message);
+                                MessageBox.Show("myerror :" + ex.Message);
                             }
                         }
                         catch (SqlCeException ex)
@@ -824,6 +824,17 @@ namespace IDCardManagement
         {
             // workspacePanel.Width = this.Width-30;
             // workspacePanel.Height = this.Height-130;
+        }
+
+        private void toolStripButton6_Click_1(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog2 = new OpenFileDialog();
+            openFileDialog2.Filter = "Image files (*.jpg;*.jpeg;*.bmp;*.gif;*.gif)|*.jpg;*.jpeg;*.bmp;*.gif;*.gif|All files (*.*)|*.*";
+            if (openFileDialog2.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                idcard.backgroundImage = new System.Drawing.Bitmap(openFileDialog2.FileName);
+                panel1.BackgroundImage = idcard.backgroundImage;
+            }
         }
 
 

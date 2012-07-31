@@ -133,21 +133,30 @@ namespace IDCardManagement
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            dimensions.Width = (int)numericUpDown1.Value;
-            pictureBox1.Width = (int)numericUpDown1.Value * 3;
+            int width=(int)numericUpDown1.Value;
+            if(comboBox1.Text == "inch")
+                 width= (Int32)convertTo("cm", Convert.ToInt32( numericUpDown1.Value));
+            
+            dimensions.Width = width;
+            pictureBox1.Width = width * 3;
             pictureBox1.Left = (groupBox1.Width - pictureBox1.Width) / 2;
-
             label9.Left = pictureBox1.Left + (pictureBox1.Width - label9.Width) / 2;
+            pictureBox2.Left = pictureBox1.Left + 5;
 
+            
         }
 
         private void numericUpDown2_ValueChanged(object sender, EventArgs e)
         {
-            dimensions.Height = (int)numericUpDown2.Value;
-            pictureBox1.Height = (int)numericUpDown2.Value * 3;
+            int height=(int)numericUpDown2.Value;
+            if(comboBox1.Text == "inch")
+                 height= (Int32)convertTo("cm", Convert.ToInt32( numericUpDown2.Value));
+            
+            dimensions.Height = height;
+            pictureBox1.Height = height * 3;
             pictureBox1.Top = (groupBox1.Height - pictureBox1.Height) / 2;
-
             label9.Top = pictureBox1.Top + 5;
+            pictureBox2.Top = pictureBox1.Top + 5;
 
         }
 
@@ -336,6 +345,26 @@ namespace IDCardManagement
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            numericUpDown1.Value = convertTo(comboBox1.Text,Convert.ToInt32(numericUpDown1.Value));
+            numericUpDown2.Value = convertTo(comboBox1.Text,Convert.ToInt32(numericUpDown2.Value));
+        }
+
+        private decimal convertTo(string inchORcm, int value)
+        {
+            switch (inchORcm)
+            {
+                case "cm":
+                    return (decimal)(value*2.54);
+                    
+                case "inch":
+                    return (decimal)(value/2.54);
+                default:
+                    return -1;
+            }
         }
 
     }
