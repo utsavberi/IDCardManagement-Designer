@@ -535,6 +535,7 @@
             this.Name = "Form2";
             this.Text = "IDCard Designer";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form2_FormClosed);
             this.Load += new System.EventHandler(this.Form2_Load);
             this.Click += new System.EventHandler(this.Form2_Click);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form2_KeyUp);

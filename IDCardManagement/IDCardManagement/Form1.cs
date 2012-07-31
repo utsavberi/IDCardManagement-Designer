@@ -240,6 +240,7 @@ namespace IDCardManagement
                             {
 
                                 SqlCeDataReader reader = command.ExecuteReader();
+                                primaryKeyTxt.Items.Clear();
                                 while (reader.Read())
                                 {
                                     fields.Add(reader.GetString(0));
@@ -264,6 +265,7 @@ namespace IDCardManagement
                             using (SqlCommand command = new SqlCommand("SELECT column_name FROM information_schema.columns WHERE (table_name = '" + tableName + "')", con))
                             {
                                 SqlDataReader reader = command.ExecuteReader();
+                                primaryKeyTxt.Items.Clear();
                                 while (reader.Read())
                                 {
                                     fields.Add(reader.GetString(0));

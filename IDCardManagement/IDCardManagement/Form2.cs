@@ -465,7 +465,7 @@ namespace IDCardManagement
                             try
                             {
                                 //Console.WriteLine("create table " + filename + "extra ( id nvarchar(100), pic varbinary(8000), printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )");
-                                extraTableName = System.IO.Path.GetFileNameWithoutExtension(filename) + DateTime.Now.Ticks + "extra";
+                                extraTableName = System.IO.Path.GetFileNameWithoutExtension(filename) + DateTime.Now.Ticks%1000 + "extra";
                                 using (SqlCeCommand cmd = new SqlCeCommand("create table " + extraTableName + " ( id nvarchar(100),  printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )", con))
                                 {
                                     cmd.ExecuteNonQuery();
@@ -503,13 +503,13 @@ namespace IDCardManagement
                             try
                             {
                                 //Console.WriteLine("create table " + filename + "extra ( id nvarchar(100), pic varbinary(8000), printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )");
-                                extraTableName = System.IO.Path.GetFileNameWithoutExtension(filename) + DateTime.Now.Ticks + "extra";
+                                extraTableName = System.IO.Path.GetFileNameWithoutExtension(filename) + DateTime.Now.Ticks%1000 + "extra";
                                 using (SqlCommand cmd = new SqlCommand("create table " + extraTableName + " ( id nvarchar(100),  printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )", con))
                                 {
                                     cmd.ExecuteNonQuery();
 
                                 }
-                                using (SqlCommand cmd2 = new SqlCommand("create table " + extraTableName + "pic ( id nvarchar(100), pic varbinary(8000) )", con))
+                                using (SqlCommand cmd2 = new SqlCommand("create table " + extraTableName + "pic ( id nvarchar(100), pic varbinary(MAX) )", con))
                                 {
                                     cmd2.ExecuteNonQuery();
 
@@ -835,6 +835,11 @@ namespace IDCardManagement
                 idcard.backgroundImage = new System.Drawing.Bitmap(openFileDialog2.FileName);
                 panel1.BackgroundImage = idcard.backgroundImage;
             }
+        }
+
+        private void Form2_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
 
 
