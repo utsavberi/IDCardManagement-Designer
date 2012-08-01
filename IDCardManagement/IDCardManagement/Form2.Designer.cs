@@ -517,10 +517,9 @@
             // 
             // palleteNbuttonContainerPanel
             // 
-            this.palleteNbuttonContainerPanel.Controls.Add(this.panel3);
             this.palleteNbuttonContainerPanel.Controls.Add(this.pallettePanel);
+            this.palleteNbuttonContainerPanel.Controls.Add(this.panel3);
             this.palleteNbuttonContainerPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.palleteNbuttonContainerPanel.Enabled = false;
             this.palleteNbuttonContainerPanel.Location = new System.Drawing.Point(1335, 0);
             this.palleteNbuttonContainerPanel.Name = "palleteNbuttonContainerPanel";
             this.palleteNbuttonContainerPanel.Size = new System.Drawing.Size(25, 658);
@@ -571,8 +570,9 @@
             this.pallettePanel.BackColor = System.Drawing.Color.White;
             this.pallettePanel.Location = new System.Drawing.Point(0, 0);
             this.pallettePanel.Name = "pallettePanel";
-            this.pallettePanel.Size = new System.Drawing.Size(50, 632);
+            this.pallettePanel.Size = new System.Drawing.Size(50, 622);
             this.pallettePanel.TabIndex = 8;
+            this.pallettePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.pallettePanel_Paint);
             // 
             // shapeContainer2
             // 

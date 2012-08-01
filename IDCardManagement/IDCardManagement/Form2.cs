@@ -69,55 +69,146 @@ namespace IDCardManagement
 
         private void generatePallette()
         {
-            Color[] colorList = new Color[]
+            List<Color> colorList = new List<Color>
             #region ColorValues
-        {
+            {
+            Color.Transparent,
+            //black to white
+            Color.FromArgb( 0x00, 0x00, 0x00 ),
+            Color.FromArgb( 0x10, 0x10, 0x10 ),
+            Color.FromArgb( 0x20, 0x20, 0x20 ),
+            Color.FromArgb( 0x33, 0x33, 0x33 ),
+            Color.FromArgb( 0x40, 0x40, 0x40 ),
+            Color.FromArgb( 0x50, 0x50, 0x50 ),
+            Color.FromArgb( 0x80, 0x80, 0x80 ),
+            Color.FromArgb( 0x99, 0x99, 0x99 ),
+            Color.FromArgb( 0xC0, 0xC0, 0xC0 ),
+            Color.White,
             
-            Color.FromArgb( 0x00, 0x00, 0x00 ),Color.FromArgb( 0x00, 0x00, 0x00 ), 
-            Color.FromArgb( 0x00, 0x00, 0x00 ),Color.FromArgb( 0x99, 0x33, 0x00 ),
-            Color.FromArgb( 0x33, 0x33, 0x00 ), Color.FromArgb( 0x00, 0x33, 0x00 ),
-            Color.FromArgb( 0x00, 0x33, 0x66 ), Color.FromArgb( 0x00, 0x00, 0x80 ),
-            Color.FromArgb( 0x33, 0x33, 0x99 ), Color.FromArgb( 0x33, 0x33, 0x33 ),
+            //
+            Color.Indigo,
+            Color.DodgerBlue,
+            Color.ForestGreen,
+            //Color.Yellow,
 
-            Color.FromArgb( 0x80, 0x00, 0x00 ), Color.FromArgb( 0xFF, 0x66, 0x00 ),
-            Color.FromArgb( 0x80, 0x80, 0x00 ), Color.FromArgb( 0x00, 0x80, 0x00 ),
-            Color.FromArgb( 0x00, 0x80, 0x80 ), Color.FromArgb( 0x00, 0x00, 0xFF ),
-            Color.FromArgb( 0x66, 0x66, 0x99 ), Color.FromArgb( 0x80, 0x80, 0x80 ),
+            Color.FromArgb( 0x99, 0x33, 0x00 ),
+            Color.FromArgb( 0xFF, 0x66, 0x00 ),
+            Color.FromArgb( 0xFF, 0x99, 0x00 ), 
+            Color.FromArgb( 0xFF, 0xCC, 0x00 ),             
+            Color.FromArgb( 0xFF, 0xCC, 0x99 ),
 
-            Color.FromArgb( 0xFF, 0x00, 0x00 ), Color.FromArgb( 0xFF, 0x99, 0x00 ),
-            Color.FromArgb( 0x99, 0xCC, 0x00 ), Color.FromArgb( 0x33, 0x99, 0x66 ),
-            Color.FromArgb( 0x33, 0xCC, 0xCC ), Color.FromArgb( 0x33, 0x66, 0xFF ),
-            Color.FromArgb( 0x80, 0x00, 0x80 ), Color.FromArgb( 0x99, 0x99, 0x99 ),
+            Color.FromArgb( 0x33, 0x33, 0x00 ),
+            Color.FromArgb( 0x80, 0x80, 0x00 ),
+            Color.FromArgb( 0x99, 0xCC, 0x00 ), 
+            Color.FromArgb( 0xFF, 0xFF, 0x00 ),
+            Color.FromArgb( 0xFF, 0xFF, 0x99 ),
 
-            Color.FromArgb( 0xFF, 0x00, 0xFF ), Color.FromArgb( 0xFF, 0xCC, 0x00 ),
-            Color.FromArgb( 0xFF, 0xFF, 0x00 ), Color.FromArgb( 0x00, 0xFF, 0x00 ),
-            Color.FromArgb( 0x00, 0xFF, 0xFF ), Color.FromArgb( 0x00, 0xCC, 0xFF ),
-            Color.FromArgb( 0x99, 0x33, 0x66 ), Color.FromArgb( 0xC0, 0xC0, 0xC0 ),
+            Color.FromArgb( 0x80, 0x00, 0x00 ),
+            Color.FromArgb( 0xFF, 0x00, 0x00 ),
+            Color.FromArgb( 0x99, 0x33, 0x66 ),
+            Color.FromArgb( 0xFF, 0x00, 0xFF ),
+            Color.FromArgb( 0xFF, 0x99, 0xCC ),
+            
 
-            Color.FromArgb( 0xFF, 0x99, 0xCC ), Color.FromArgb( 0xFF, 0xCC, 0x99 ),
-            Color.FromArgb( 0xFF, 0xFF, 0x99 ), Color.FromArgb( 0xCC, 0xFF, 0xCC ),
-            Color.FromArgb( 0xCC, 0xFF, 0xFF ), Color.FromArgb( 0x99, 0xCC, 0xFF ),
-            Color.FromArgb( 0xCC, 0x99, 0xFF ), Color.FromArgb( 0xFF, 0xFF, 0xFF ),
-            Color.FromArgb( 0xFF, 0xFF, 0xFF ),Color.FromArgb( 0xFF, 0xFF, 0xFF ),
+            Color.FromArgb( 0x00, 0x33, 0x00 ),
+            Color.FromArgb( 0x00, 0x80, 0x00 ),
+            Color.FromArgb( 0x33, 0x99, 0x66 ),
+            Color.FromArgb( 0x00, 0xFF, 0x00 ),
+            Color.FromArgb( 0xCC, 0xFF, 0xCC ),
+
+
+            Color.FromArgb( 0x00, 0x33, 0x66 ),
+            Color.FromArgb( 0x00, 0x80, 0x80 ),
+            Color.FromArgb( 0x33, 0xCC, 0xCC ),
+            Color.FromArgb( 0x00, 0xFF, 0xFF ),
+            Color.FromArgb( 0xCC, 0xFF, 0xFF ),
+            
+            Color.FromArgb( 0x00, 0x00, 0x80 ),             
+            Color.FromArgb( 0x00, 0x00, 0xFF ),             
+            Color.FromArgb( 0x33, 0x66, 0xFF ),             
+            Color.FromArgb( 0x00, 0xCC, 0xFF ),             
+            Color.FromArgb( 0x99, 0xCC, 0xFF ),
+
+            Color.FromArgb( 0x33, 0x33, 0x99 ),
+            Color.FromArgb( 0x66, 0x66, 0x99 ),
+            Color.FromArgb( 0x80, 0x00, 0x80 ), 
+            Color.FromArgb( 0xCC, 0x99, 0xFF ),  
+            Color.FromArgb( 0xFF, 0xFF, 0xFF ),
+
+            Color.FromArgb( 0xFF, 0xFF, 0xFF ),
+            Color.FromArgb( 0xFF, 0xFF, 0xFF ),
             Color.FromArgb( 0xFF, 0xFF, 0xFF )
-
-
-
+            
         };
+           #endregion
+
+            List<Color> tmpClrLst = new List<Color>();
+            foreach (KnownColor knwnClr in Enum.GetValues(typeof(KnownColor)))
+            { tmpClrLst.Add(Color.FromKnownColor(knwnClr)); }
+                        
+            tmpClrLst.Sort(delegate(System.Drawing.Color x, System.Drawing.Color y)
+                #region
+            {
+                #region 
+                Color cx, cy;
+                 float hx, hy, sx, sy, bx, by;
+                 // get Color values
+
+                 cx = x;
+                 cy = y;
+        // get saturation values
+            sx = cx.GetSaturation ();
+        sy = cy.GetSaturation ();
+        // get hue values
+        hx = cx.GetHue ();
+        hy = cy.GetHue ();
+        // get brightness values
+        bx = cx.GetBrightness ();
+        by = cy.GetBrightness ();
+
+        // determine order
+        // 1 : hue       
+        if (hx < hy) return -1; 
+        else if (hx > hy) return 1;
+        else {
+            // 2 : saturation
+            if (sx < sy) return -1;
+            else if (sx > sy) return 1;
+            else {
+                // 3 : brightness
+                if (bx < by) return -1;
+                else if (bx > by) return 1;
+                else return 0;
+            }
+        }
+                #endregion
+            });
 #endregion
 
-            int i = 1;
+            tmpClrLst.RemoveRange(0, 33);
+            tmpClrLst.Reverse();
+            colorList.AddRange(tmpClrLst);
+                       
+            int i = 0;
             foreach (Color clr in colorList)
             {
+
                 Button btn = new Button();
-                btn.FlatStyle = FlatStyle.Flat;
+                if (clr == Color.Transparent)
+                {
+                    btn.Text = "X";
+                    btn.FlatStyle = FlatStyle.Standard;
+                    btn.Font = new Font("Segoe Script", 10);
+                }
+                btn.FlatStyle = FlatStyle.Popup;
                 btn.FlatAppearance.BorderSize = 1;
                 btn.BackColor = clr;
                 btn.Top = i * 25;
                 btn.Left = 0;
                 i++;
                 btn.Width = 25;
-                btn.Height = 25;
+                btn.Height = 27;
+
                 btn.MouseDown += delegate(object sender, MouseEventArgs e)
                 {
                     if (e.Button == MouseButtons.Left)
@@ -141,7 +232,6 @@ namespace IDCardManagement
         {
             toolStripStatusLabel1.Text = "Click on Open or New to start working...";
             foreach (FontFamily font in System.Drawing.FontFamily.Families) fontToolStripComboBox.Items.Add(font.Name);
-
         }
 
         bool isNew;
@@ -207,7 +297,7 @@ namespace IDCardManagement
         private void enableItems()
         {
             toolStripDropDownButton1.Enabled = true;
-            palleteNbuttonContainerPanel.Enabled = true;
+            pallettePanel.Enabled = true;
             foreach (ToolStripItem ctl in toolStrip1.Items)
             {
                 ctl.Enabled = true;
@@ -236,7 +326,7 @@ namespace IDCardManagement
             Label tmp = sender as Label;
             tmp.BorderStyle = BorderStyle.FixedSingle;
             fontToolStripComboBox.Text = tmp.Font.FontFamily.Name;
-            fontSizeToolStripComboBox.Text = ((int)tmp.Font.Size/currentZoom).ToString();
+            fontSizeToolStripComboBox.Text = ((int)tmp.Font.Size / currentZoom).ToString();
             toolStripButton1.BackColor = tmp.ForeColor;
             toolStripButton2.BackColor = tmp.BackColor;
         }
@@ -580,7 +670,7 @@ namespace IDCardManagement
                             try
                             {
                                 //Console.WriteLine("create table " + filename + "extra ( id nvarchar(100), pic varbinary(8000), printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )");
-                                extraTableName = System.IO.Path.GetFileNameWithoutExtension(filename) + DateTime.Now.Ticks%1000 + "extra";
+                                extraTableName = System.IO.Path.GetFileNameWithoutExtension(filename) + DateTime.Now.Ticks % 1000 + "extra";
                                 using (SqlCommand cmd = new SqlCommand("create table " + extraTableName + " ( id nvarchar(100),  printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )", con))
                                 {
                                     cmd.ExecuteNonQuery();
@@ -928,7 +1018,7 @@ namespace IDCardManagement
             }
         }
 
-       private void workspacePanel_Click(object sender, EventArgs e)
+        private void workspacePanel_Click(object sender, EventArgs e)
         {
             foreach (Control ctl in panel1.Controls)
             {
@@ -937,21 +1027,30 @@ namespace IDCardManagement
             }
         }
 
-       int scrollStep = 60;
-       private void palletteUpButton_Click(object sender, EventArgs e)
-       {
-           if(pallettePanel.VerticalScroll.Value>=scrollStep)
-           pallettePanel.VerticalScroll.Value -= scrollStep ;
-       }
+        int scrollStep = 60;
+        private void palletteUpButton_Click(object sender, EventArgs e)
+        {
+            if (pallettePanel.VerticalScroll.Value >= scrollStep)
+            {
+                pallettePanel.VerticalScroll.Value -= scrollStep;
+            }
+            else pallettePanel.VerticalScroll.Value = pallettePanel.VerticalScroll.Minimum;
+        }
 
-       private void palleteDownButton_Click(object sender, EventArgs e)
-       {
-           if (pallettePanel.VerticalScroll.Value<=pallettePanel.VerticalScroll.Maximum-scrollStep)
-           pallettePanel.VerticalScroll.Value += scrollStep;
-       }
+        private void palleteDownButton_Click(object sender, EventArgs e)
+        {
+            if (pallettePanel.VerticalScroll.Value <= pallettePanel.VerticalScroll.Maximum - scrollStep)
+                pallettePanel.VerticalScroll.Value += scrollStep;
+            else pallettePanel.VerticalScroll.Value = pallettePanel.VerticalScroll.Maximum;
+        }
 
-     
-       
+        private void pallettePanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+
+
 
 
 
