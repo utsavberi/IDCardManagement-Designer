@@ -346,47 +346,6 @@ namespace IDCardManagement
             panel1.Controls.Add(tmp);
         }
 
-        int barcodeCount = 0;
-        private void panel1_MouseUp(object sender, MouseEventArgs e)
-        {
-
-            X = Cursor.Position.X - panel1.Left;
-            Y = Cursor.Position.Y - panel1.Top - displacementY;
-            if (mode == Mode.addBarcodeOn)
-            {
-                PictureBox barcodePictureBox = new PictureBox();
-                barcodePictureBox.Tag = "barcode";
-                barcodePictureBox.BackgroundImageLayout = ImageLayout.Stretch;
-                barcodePictureBox.BackgroundImage = Properties.Resources.barcodeImg;//new Bitmap(@"C:\Users\Archie\Documents\GitHub\IDCardManagement-Designer\IDCardManagement\IDCardManagement\Resources\barcodeImg.png");
-                barcodePictureBox.SetBounds(rect.X, rect.Y, rect.Width, rect.Height);
-                panel1.Controls.Add(barcodePictureBox);
-                ControlMover.Init(barcodePictureBox);
-                ControlResizer.Init(barcodePictureBox);
-                this.Cursor = Cursors.Default;
-                mode = Mode.none;
-                rect = new Rectangle(0, 0, 0, 0);
-                barcodePictureBox.Click += barccodePictureBox_Click;
-                barcodeCount = 1;
-            }
-            if (mode == Mode.addTextOn)
-            {
-                this.Cursor = Cursors.Arrow;
-                TextBox tmpTxt = new TextBox();
-                tmpTxt.SetBounds(X, Y, 100, 50);
-                tmpTxt.BorderStyle = BorderStyle.FixedSingle;
-                //tmpTxt.BackColor = Color.Transparent;
-                panel1.Controls.Add(tmpTxt);
-                tmpTxt.KeyUp += tmpTxt_KeyUp;
-                tmpTxt.Leave += tmpTxt_Leave;
-                panel1.Controls.Add(tmpTxt);
-                mode = Mode.none;
-                tmpTxt.Select();
-
-            }
-
-
-        }
-
         private void barccodePictureBox_Click(object sender, EventArgs e)
         {
             (sender as PictureBox).BorderStyle = BorderStyle.FixedSingle;
@@ -892,12 +851,57 @@ namespace IDCardManagement
 
         Rectangle rect;
         private bool mouseClicked;
+        int barcodeCount = 0;
+        private void panel1_MouseUp(object sender, MouseEventArgs e)
+        {
+
+            X = Cursor.Position.X - panel1.Left;
+            Y = Cursor.Position.Y - panel1.Top - displacementY;
+            foreach (Control ctl in panel1.Controls)
+            {
+                if (ctl is Label && rect.IntersectsWith(ctl.Bounds)) (ctl as Label).BorderStyle = BorderStyle.FixedSingle;
+            }
+                //if (mode == Mode.addBarcodeOn)
+            //{
+                //  PictureBox barcodePictureBox = new PictureBox();
+                //barcodePictureBox.Tag = "barcode";
+                //barcodePictureBox.BackgroundImageLayout = ImageLayout.Stretch;
+                //barcodePictureBox.BackgroundImage = Properties.Resources.barcodeImg;//new Bitmap(@"C:\Users\Archie\Documents\GitHub\IDCardManagement-Designer\IDCardManagement\IDCardManagement\Resources\barcodeImg.png");
+                //barcodePictureBox.SetBounds(rect.X, rect.Y, rect.Width, rect.Height);
+                //panel1.Controls.Add(barcodePictureBox);
+                //ControlMover.Init(barcodePictureBox);
+                //ControlResizer.Init(barcodePictureBox);
+                //this.Cursor = Cursors.Default;
+                //mode = Mode.none;
+                
+                rect = new Rectangle(0, 0, 0, 0);
+                //barcodePictureBox.Click += barccodePictureBox_Click;
+                //barcodeCount = 1;
+           // }
+            if (mode == Mode.addTextOn)
+            {
+                this.Cursor = Cursors.Arrow;
+                TextBox tmpTxt = new TextBox();
+                tmpTxt.SetBounds(X, Y, 100, 50);
+                tmpTxt.BorderStyle = BorderStyle.FixedSingle;
+                //tmpTxt.BackColor = Color.Transparent;
+                panel1.Controls.Add(tmpTxt);
+                tmpTxt.KeyUp += tmpTxt_KeyUp;
+                tmpTxt.Leave += tmpTxt_Leave;
+                panel1.Controls.Add(tmpTxt);
+                mode = Mode.none;
+                tmpTxt.Select();
+
+            }
+
+
+        }
 
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (mode == Mode.addBarcodeOn && e.Button == MouseButtons.Left)
+            //if (mode == Mode.addBarcodeOn && e.Button == MouseButtons.Left)
             {
-
+                if(e.Button == MouseButtons.Left)
                 rect = new Rectangle(rect.Left, rect.Top, e.X - rect.Left, e.Y - rect.Top);
 
             }
@@ -906,7 +910,7 @@ namespace IDCardManagement
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            if (mode == Mode.addBarcodeOn)
+            //if (mode == Mode.addBarcodeOn)
                 using (Pen pen = new Pen(Color.Gray, 2))
                 {
                     e.Graphics.DrawRectangle(pen, rect);
@@ -950,6 +954,7 @@ namespace IDCardManagement
                 }
             }
         }
+
         private void toolStripButton6_Click(object sender, EventArgs e)
         {
 
@@ -966,6 +971,7 @@ namespace IDCardManagement
 
 
         }
+
         double currentZoom = 1;
         private void toolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1044,11 +1050,7 @@ namespace IDCardManagement
             else pallettePanel.VerticalScroll.Value = pallettePanel.VerticalScroll.Maximum;
         }
 
-        private void pallettePanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
+     
 
 
 

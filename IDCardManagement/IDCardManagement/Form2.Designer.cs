@@ -77,10 +77,10 @@
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
             this.workspacePanel = new System.Windows.Forms.Panel();
             this.palleteNbuttonContainerPanel = new System.Windows.Forms.Panel();
+            this.pallettePanel = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.palleteDownButton = new System.Windows.Forms.Button();
             this.palletteUpButton = new System.Windows.Forms.Button();
-            this.pallettePanel = new System.Windows.Forms.Panel();
             this.shapeContainer2 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -525,6 +525,17 @@
             this.palleteNbuttonContainerPanel.Size = new System.Drawing.Size(25, 658);
             this.palleteNbuttonContainerPanel.TabIndex = 9;
             // 
+            // pallettePanel
+            // 
+            this.pallettePanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.pallettePanel.AutoScroll = true;
+            this.pallettePanel.BackColor = System.Drawing.Color.White;
+            this.pallettePanel.Location = new System.Drawing.Point(0, 0);
+            this.pallettePanel.Name = "pallettePanel";
+            this.pallettePanel.Size = new System.Drawing.Size(50, 622);
+            this.pallettePanel.TabIndex = 8;
+            // 
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.Silver;
@@ -562,18 +573,6 @@
             this.palletteUpButton.UseVisualStyleBackColor = false;
             this.palletteUpButton.Click += new System.EventHandler(this.palletteUpButton_Click);
             // 
-            // pallettePanel
-            // 
-            this.pallettePanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.pallettePanel.AutoScroll = true;
-            this.pallettePanel.BackColor = System.Drawing.Color.White;
-            this.pallettePanel.Location = new System.Drawing.Point(0, 0);
-            this.pallettePanel.Name = "pallettePanel";
-            this.pallettePanel.Size = new System.Drawing.Size(50, 622);
-            this.pallettePanel.TabIndex = 8;
-            this.pallettePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.pallettePanel_Paint);
-            // 
             // shapeContainer2
             // 
             this.shapeContainer2.Location = new System.Drawing.Point(0, 0);
@@ -594,7 +593,6 @@
             this.BackgroundImage = global::IDCardManagement.Properties.Resources.bg1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1360, 737);
-            this.ContextMenuStrip = this.contextMenuStrip1;
             this.Controls.Add(this.workspacePanel);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
