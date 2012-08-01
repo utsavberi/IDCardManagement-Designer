@@ -38,6 +38,7 @@ namespace IDCardManagement
         {
 
             InitializeComponent();
+            generatePallette();
             gridStatus = 0;
             mode = Mode.none;
             if (fileopen != null)
@@ -50,6 +51,7 @@ namespace IDCardManagement
         public Form2()
         {
             InitializeComponent();
+            generatePallette();
             gridStatus = 0;
             mode = Mode.none;
 
@@ -59,9 +61,80 @@ namespace IDCardManagement
         public Form2(IDCard idcard)
         {
             InitializeComponent();
+            generatePallette();
             this.idcard = idcard;
             isNew = true;
             Form2_LoadFile();
+        }
+
+        private void generatePallette()
+        {
+            Color[] colorList = new Color[]
+            #region ColorValues
+        {
+            
+            Color.FromArgb( 0x00, 0x00, 0x00 ),Color.FromArgb( 0x00, 0x00, 0x00 ), 
+            Color.FromArgb( 0x00, 0x00, 0x00 ),Color.FromArgb( 0x99, 0x33, 0x00 ),
+            Color.FromArgb( 0x33, 0x33, 0x00 ), Color.FromArgb( 0x00, 0x33, 0x00 ),
+            Color.FromArgb( 0x00, 0x33, 0x66 ), Color.FromArgb( 0x00, 0x00, 0x80 ),
+            Color.FromArgb( 0x33, 0x33, 0x99 ), Color.FromArgb( 0x33, 0x33, 0x33 ),
+
+            Color.FromArgb( 0x80, 0x00, 0x00 ), Color.FromArgb( 0xFF, 0x66, 0x00 ),
+            Color.FromArgb( 0x80, 0x80, 0x00 ), Color.FromArgb( 0x00, 0x80, 0x00 ),
+            Color.FromArgb( 0x00, 0x80, 0x80 ), Color.FromArgb( 0x00, 0x00, 0xFF ),
+            Color.FromArgb( 0x66, 0x66, 0x99 ), Color.FromArgb( 0x80, 0x80, 0x80 ),
+
+            Color.FromArgb( 0xFF, 0x00, 0x00 ), Color.FromArgb( 0xFF, 0x99, 0x00 ),
+            Color.FromArgb( 0x99, 0xCC, 0x00 ), Color.FromArgb( 0x33, 0x99, 0x66 ),
+            Color.FromArgb( 0x33, 0xCC, 0xCC ), Color.FromArgb( 0x33, 0x66, 0xFF ),
+            Color.FromArgb( 0x80, 0x00, 0x80 ), Color.FromArgb( 0x99, 0x99, 0x99 ),
+
+            Color.FromArgb( 0xFF, 0x00, 0xFF ), Color.FromArgb( 0xFF, 0xCC, 0x00 ),
+            Color.FromArgb( 0xFF, 0xFF, 0x00 ), Color.FromArgb( 0x00, 0xFF, 0x00 ),
+            Color.FromArgb( 0x00, 0xFF, 0xFF ), Color.FromArgb( 0x00, 0xCC, 0xFF ),
+            Color.FromArgb( 0x99, 0x33, 0x66 ), Color.FromArgb( 0xC0, 0xC0, 0xC0 ),
+
+            Color.FromArgb( 0xFF, 0x99, 0xCC ), Color.FromArgb( 0xFF, 0xCC, 0x99 ),
+            Color.FromArgb( 0xFF, 0xFF, 0x99 ), Color.FromArgb( 0xCC, 0xFF, 0xCC ),
+            Color.FromArgb( 0xCC, 0xFF, 0xFF ), Color.FromArgb( 0x99, 0xCC, 0xFF ),
+            Color.FromArgb( 0xCC, 0x99, 0xFF ), Color.FromArgb( 0xFF, 0xFF, 0xFF ),
+            Color.FromArgb( 0xFF, 0xFF, 0xFF ),Color.FromArgb( 0xFF, 0xFF, 0xFF ),
+            Color.FromArgb( 0xFF, 0xFF, 0xFF )
+
+
+
+        };
+#endregion
+
+            int i = 1;
+            foreach (Color clr in colorList)
+            {
+                Button btn = new Button();
+                btn.FlatStyle = FlatStyle.Flat;
+                btn.FlatAppearance.BorderSize = 1;
+                btn.BackColor = clr;
+                btn.Top = i * 25;
+                btn.Left = 0;
+                i++;
+                btn.Width = 25;
+                btn.Height = 25;
+                btn.MouseDown += delegate(object sender, MouseEventArgs e)
+                {
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        foreach (Control ctl in panel1.Controls)
+                            if (ctl is Label && ((Label)ctl).BorderStyle == BorderStyle.FixedSingle)
+                                ((Label)ctl).ForeColor = (sender as Button).BackColor;
+                    }
+                    else if (e.Button == MouseButtons.Right)
+                    {
+                        foreach (Control ctl in panel1.Controls)
+                            if (ctl is Label && ((Label)ctl).BorderStyle == BorderStyle.FixedSingle)
+                                ((Label)ctl).BackColor = (sender as Button).BackColor;
+                    }
+                };
+                pallettePanel.Controls.Add(btn);
+            }
         }
 
         private void Form2_Load(object o, EventArgs e)
@@ -134,6 +207,7 @@ namespace IDCardManagement
         private void enableItems()
         {
             toolStripDropDownButton1.Enabled = true;
+            palleteNbuttonContainerPanel.Enabled = true;
             foreach (ToolStripItem ctl in toolStrip1.Items)
             {
                 ctl.Enabled = true;
@@ -152,7 +226,7 @@ namespace IDCardManagement
 
         private void tmplbl_MouseDown(object sender, MouseEventArgs e)
         {
-            if (Control.ModifierKeys != Keys.Control)
+            if (Control.ModifierKeys != Keys.Control && Control.ModifierKeys != Keys.Shift)
                 foreach (Control ctl in panel1.Controls)
                 {
                     if (ctl is Label) { ((Label)ctl).BorderStyle = BorderStyle.None; }
@@ -162,7 +236,7 @@ namespace IDCardManagement
             Label tmp = sender as Label;
             tmp.BorderStyle = BorderStyle.FixedSingle;
             fontToolStripComboBox.Text = tmp.Font.FontFamily.Name;
-            fontSizeToolStripComboBox.Text = ((int)tmp.Font.Size).ToString();
+            fontSizeToolStripComboBox.Text = ((int)tmp.Font.Size/currentZoom).ToString();
             toolStripButton1.BackColor = tmp.ForeColor;
             toolStripButton2.BackColor = tmp.BackColor;
         }
@@ -281,13 +355,14 @@ namespace IDCardManagement
         {
             foreach (Control ctl in panel1.Controls)
                 if (ctl is Label && ((Label)ctl).BorderStyle == BorderStyle.FixedSingle)
-                    ((Label)ctl).Font = new Font(ctl.Font.FontFamily.ToString(), Convert.ToInt32(fontSizeToolStripComboBox.Text));
+                    ((Label)ctl).Font = new Font(ctl.Font.FontFamily.ToString(), Convert.ToInt32(Convert.ToInt32(fontSizeToolStripComboBox.Text) * currentZoom));
 
 
         }
 
         private void backcolorToolStripButton_Click(object sender, EventArgs e)
         {
+            colorDialog1.FullOpen = true;
             if (colorDialog1.ShowDialog() == DialogResult.OK)
                 foreach (Control ctl in panel1.Controls)
                     if (ctl is Label && ((Label)ctl).BorderStyle == BorderStyle.FixedSingle)
@@ -318,6 +393,7 @@ namespace IDCardManagement
 
         private void forecolorToolStripButton_Click(object sender, EventArgs e)
         {
+            colorDialog1.FullOpen = true;
             if (colorDialog1.ShowDialog() == DialogResult.OK)
                 foreach (Control ctl in panel1.Controls)
                     if (ctl is Label && ((Label)ctl).BorderStyle == BorderStyle.FixedSingle)
@@ -842,6 +918,40 @@ namespace IDCardManagement
         {
             Application.Exit();
         }
+
+        private void panel1_Click_1(object sender, EventArgs e)
+        {
+            foreach (Control ctl in panel1.Controls)
+            {
+                if (ctl is Label) { ((Label)ctl).BorderStyle = BorderStyle.None; }
+                if (ctl is PictureBox) { ((PictureBox)ctl).BorderStyle = BorderStyle.None; }
+            }
+        }
+
+       private void workspacePanel_Click(object sender, EventArgs e)
+        {
+            foreach (Control ctl in panel1.Controls)
+            {
+                if (ctl is Label) { ((Label)ctl).BorderStyle = BorderStyle.None; }
+                if (ctl is PictureBox) { ((PictureBox)ctl).BorderStyle = BorderStyle.None; }
+            }
+        }
+
+       int scrollStep = 60;
+       private void palletteUpButton_Click(object sender, EventArgs e)
+       {
+           if(pallettePanel.VerticalScroll.Value>=scrollStep)
+           pallettePanel.VerticalScroll.Value -= scrollStep ;
+       }
+
+       private void palleteDownButton_Click(object sender, EventArgs e)
+       {
+           if (pallettePanel.VerticalScroll.Value<=pallettePanel.VerticalScroll.Maximum-scrollStep)
+           pallettePanel.VerticalScroll.Value += scrollStep;
+       }
+
+     
+       
 
 
 

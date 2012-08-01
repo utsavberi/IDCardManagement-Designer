@@ -76,12 +76,19 @@
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
             this.workspacePanel = new System.Windows.Forms.Panel();
+            this.palleteNbuttonContainerPanel = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.palleteDownButton = new System.Windows.Forms.Button();
+            this.palletteUpButton = new System.Windows.Forms.Button();
+            this.pallettePanel = new System.Windows.Forms.Panel();
             this.shapeContainer2 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.workspacePanel.SuspendLayout();
+            this.palleteNbuttonContainerPanel.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStrip1
@@ -298,6 +305,7 @@
             this.panel1.Size = new System.Drawing.Size(474, 257);
             this.panel1.TabIndex = 1;
             this.panel1.Visible = false;
+            this.panel1.Click += new System.EventHandler(this.panel1_Click_1);
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
             this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
@@ -494,15 +502,77 @@
             // 
             // workspacePanel
             // 
+            this.workspacePanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.workspacePanel.AutoScroll = true;
             this.workspacePanel.BackgroundImage = global::IDCardManagement.Properties.Resources.bg1;
+            this.workspacePanel.Controls.Add(this.palleteNbuttonContainerPanel);
             this.workspacePanel.Controls.Add(this.panel1);
             this.workspacePanel.Controls.Add(this.shapeContainer2);
-            this.workspacePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.workspacePanel.Location = new System.Drawing.Point(0, 54);
             this.workspacePanel.Name = "workspacePanel";
             this.workspacePanel.Size = new System.Drawing.Size(1360, 658);
             this.workspacePanel.TabIndex = 7;
+            this.workspacePanel.Click += new System.EventHandler(this.workspacePanel_Click);
+            // 
+            // palleteNbuttonContainerPanel
+            // 
+            this.palleteNbuttonContainerPanel.Controls.Add(this.panel3);
+            this.palleteNbuttonContainerPanel.Controls.Add(this.pallettePanel);
+            this.palleteNbuttonContainerPanel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.palleteNbuttonContainerPanel.Enabled = false;
+            this.palleteNbuttonContainerPanel.Location = new System.Drawing.Point(1335, 0);
+            this.palleteNbuttonContainerPanel.Name = "palleteNbuttonContainerPanel";
+            this.palleteNbuttonContainerPanel.Size = new System.Drawing.Size(25, 658);
+            this.palleteNbuttonContainerPanel.TabIndex = 9;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.Silver;
+            this.panel3.Controls.Add(this.palleteDownButton);
+            this.panel3.Controls.Add(this.palletteUpButton);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel3.Location = new System.Drawing.Point(0, 621);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(25, 37);
+            this.panel3.TabIndex = 9;
+            // 
+            // palleteDownButton
+            // 
+            this.palleteDownButton.BackColor = System.Drawing.Color.Silver;
+            this.palleteDownButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.palleteDownButton.Font = new System.Drawing.Font("Times New Roman", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.palleteDownButton.Location = new System.Drawing.Point(0, 17);
+            this.palleteDownButton.Name = "palleteDownButton";
+            this.palleteDownButton.Size = new System.Drawing.Size(25, 20);
+            this.palleteDownButton.TabIndex = 11;
+            this.palleteDownButton.Text = "▼";
+            this.palleteDownButton.UseVisualStyleBackColor = false;
+            this.palleteDownButton.Click += new System.EventHandler(this.palleteDownButton_Click);
+            // 
+            // palletteUpButton
+            // 
+            this.palletteUpButton.BackColor = System.Drawing.Color.Silver;
+            this.palletteUpButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.palletteUpButton.Font = new System.Drawing.Font("Times New Roman", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.palletteUpButton.Location = new System.Drawing.Point(0, 0);
+            this.palletteUpButton.Name = "palletteUpButton";
+            this.palletteUpButton.Size = new System.Drawing.Size(25, 20);
+            this.palletteUpButton.TabIndex = 10;
+            this.palletteUpButton.Text = "▲";
+            this.palletteUpButton.UseVisualStyleBackColor = false;
+            this.palletteUpButton.Click += new System.EventHandler(this.palletteUpButton_Click);
+            // 
+            // pallettePanel
+            // 
+            this.pallettePanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.pallettePanel.AutoScroll = true;
+            this.pallettePanel.BackColor = System.Drawing.Color.White;
+            this.pallettePanel.Location = new System.Drawing.Point(0, 0);
+            this.pallettePanel.Name = "pallettePanel";
+            this.pallettePanel.Size = new System.Drawing.Size(50, 632);
+            this.pallettePanel.TabIndex = 8;
             // 
             // shapeContainer2
             // 
@@ -549,6 +619,8 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.workspacePanel.ResumeLayout(false);
+            this.palleteNbuttonContainerPanel.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -601,6 +673,11 @@
         private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer2;
         private System.Windows.Forms.ToolStripButton toolStripButton6;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.Panel pallettePanel;
+        private System.Windows.Forms.Panel palleteNbuttonContainerPanel;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Button palleteDownButton;
+        private System.Windows.Forms.Button palletteUpButton;
 
     }
 }
