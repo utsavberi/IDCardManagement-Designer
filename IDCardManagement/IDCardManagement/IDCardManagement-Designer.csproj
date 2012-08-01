@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IDCardManagement</RootNamespace>
-    <AssemblyName>IDCardManagement</AssemblyName>
+    <AssemblyName>IDCardDesigner</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -24,7 +24,6 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ProductName>IDCardDesigner</ProductName>
-    <PublisherName>Utsav Beri</PublisherName>
     <SuiteName>IDCardManagement</SuiteName>
     <ApplicationRevision>21</ApplicationRevision>
     <ApplicationVersion>1.0.0.21</ApplicationVersion>
@@ -100,6 +99,12 @@
     <Compile Include="IDCard.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -116,6 +121,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="IDCardManagement_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -171,6 +179,7 @@
     <None Include="Resources\barcode.png" />
     <None Include="Resources\barcodeImg.bmp" />
     <Content Include="Resources\barcodeImg.png" />
+    <None Include="Resources\water-icon2.png" />
     <Content Include="water.ico" />
   </ItemGroup>
   <ItemGroup>

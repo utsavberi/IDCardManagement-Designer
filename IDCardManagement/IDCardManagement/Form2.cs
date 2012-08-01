@@ -36,6 +36,7 @@ namespace IDCardManagement
         //called when double-click on .idc file
         public Form2(string fileopen)
         {
+            //SplashScreen.showSplashScreen();
 
             InitializeComponent();
             generatePallette();
@@ -50,6 +51,7 @@ namespace IDCardManagement
         }
         public Form2()
         {
+            //SplashScreen.showSplashScreen();
             InitializeComponent();
             generatePallette();
             gridStatus = 0;
@@ -60,6 +62,7 @@ namespace IDCardManagement
         //called when "file->new" 
         public Form2(IDCard idcard)
         {
+           // SplashScreen.showSplashScreen();
             InitializeComponent();
             generatePallette();
             this.idcard = idcard;
@@ -1020,7 +1023,10 @@ namespace IDCardManagement
         {
             foreach (Control ctl in panel1.Controls)
             {
-                if (ctl is Label) { ((Label)ctl).BorderStyle = BorderStyle.None; }
+                if (ctl is Label) 
+                { 
+                    ((Label)ctl).BorderStyle = BorderStyle.None; 
+                }
                 if (ctl is PictureBox) { ((PictureBox)ctl).BorderStyle = BorderStyle.None; }
             }
         }

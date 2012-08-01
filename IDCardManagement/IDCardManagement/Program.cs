@@ -16,6 +16,7 @@ namespace IDCardManagement
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            SplashScreen.showSplashScreen();
             if(args.Length>0)Application.Run(new Form2(args[0]));
             else Application.Run(new Form2());
         }

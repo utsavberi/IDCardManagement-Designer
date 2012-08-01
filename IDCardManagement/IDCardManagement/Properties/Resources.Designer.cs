@@ -171,5 +171,12 @@ namespace IDCardManagement.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap water_icon2 {
+            get {
+                object obj = ResourceManager.GetObject("water-icon2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
