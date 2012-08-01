@@ -251,7 +251,7 @@ namespace IDCardManagement
             enableItems();
             titleLbl.Text = idcard.title;
             titleLbl.MouseDown += tmplbl_MouseDown;
-            ControlMover.Init(titleLbl);
+            ControlMover.Init(titleLbl,panel1,true);
 
             if (isNew == true)
             {
@@ -316,7 +316,7 @@ namespace IDCardManagement
 
         private void tmplbl_MouseDown(object sender, MouseEventArgs e)
         {
-            if (Control.ModifierKeys != Keys.Control && Control.ModifierKeys != Keys.Shift)
+            if (Control.ModifierKeys != Keys.Control && Control.ModifierKeys != Keys.Shift && (sender as Label).BorderStyle!=BorderStyle.FixedSingle )
                 foreach (Control ctl in panel1.Controls)
                 {
                     if (ctl is Label) { ((Label)ctl).BorderStyle = BorderStyle.None; }
@@ -330,6 +330,7 @@ namespace IDCardManagement
             toolStripButton1.BackColor = tmp.ForeColor;
             toolStripButton2.BackColor = tmp.BackColor;
         }
+        
         int displacementY = 50; //displacement in Y due to toolbar
         private void tmpToolStripItem_Click(object sender, EventArgs e)
         {
@@ -342,7 +343,7 @@ namespace IDCardManagement
             tmp.Top = Y - displacementY;
             tmp.AutoSize = true;
             tmp.MouseDown += tmplbl_MouseDown;
-            ControlMover.Init(tmp);
+            ControlMover.Init(tmp,panel1,true);
             panel1.Controls.Add(tmp);
         }
 
@@ -496,7 +497,7 @@ namespace IDCardManagement
                                     tmp.Left = Convert.ToInt32(reader.GetAttribute("left"));
                                     panel1.Controls.Add(tmp);
                                     tmp.MouseDown += tmplbl_MouseDown;
-                                    ControlMover.Init(tmp);
+                                    ControlMover.Init(tmp,panel1,true);
                                     tmp.AutoSize = true;
                                     tmp.Font = (Font)TypeDescriptor.GetConverter(typeof(Font)).ConvertFromString(reader.GetAttribute("font"));
                                     tmp.BackColor = Color.FromArgb(Convert.ToInt32(reader.GetAttribute("backcolor")));

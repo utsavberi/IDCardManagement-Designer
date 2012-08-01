@@ -10,24 +10,24 @@ namespace IDCardManagement
 {
     class ControlMover
     {
-        public enum Direction
+        //public enum Direction
+        //{
+        //    Any,
+        //    Horizontal,
+        //    Vertical
+        //}
+
+        //public static void Init(Control control)
+        //{
+        //    Init(control);//, Direction.Any);
+        //}
+
+        public static void Init(Control control)//, Direction direction)
         {
-            Any,
-            Horizontal,
-            Vertical
+            Init(control, control, false);//, direction);
         }
 
-        public static void Init(Control control)
-        {
-            Init(control, Direction.Any);
-        }
-
-        public static void Init(Control control, Direction direction)
-        {
-            Init(control, control, direction);
-        }
-
-        public static void Init(Control control, Control container, Direction direction)
+        public static void Init(Control control, Control container, Boolean multipleMove)//, Direction direction)
         {
             bool Dragging = false;
             Point DragStart = Point.Empty;
@@ -46,10 +46,25 @@ namespace IDCardManagement
             {
                 if (Dragging)
                 {
-                    if (direction != Direction.Vertical)
+                    if (multipleMove == false)
+                    {
+                        //if (direction != Direction.Vertical)
                         container.Left = Math.Max(0, e.X + container.Left - DragStart.X);
-                    if (direction != Direction.Horizontal)
+                        //if (direction != Direction.Horizontal)
                         container.Top = Math.Max(0, e.Y + container.Top - DragStart.Y);
+                    }
+                    else
+                    {
+                        foreach (Control ctl in container.Controls)
+                        {
+                            if (ctl is Label && (ctl as Label).BorderStyle == BorderStyle.FixedSingle)
+                               
+                                {
+                                    ctl.Left = Math.Max(0, e.X + ctl.Left - DragStart.X);
+                                    ctl.Top = Math.Max(0, e.Y + ctl.Top - DragStart.Y);
+                                }
+                        }
+                    }
                 }
             };
         }
