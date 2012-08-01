@@ -69,14 +69,14 @@ namespace Microsoft.Data.ConnectionUI
 			//dialog.DataSources.Add(DataSource.OracleDataSource);
 			//dialog.DataSources.Add(DataSource.AccessDataSource);
 			//dialog.DataSources.Add(DataSource.OdbcDataSource);
-			dialog.DataSources.Add(SqlCe.SqlCeDataSource);
+			//dialog.DataSources.Add(SqlCe.SqlCeDataSource);
            
             
 			dialog.UnspecifiedDataSource.Providers.Add(DataProvider.SqlDataProvider);
 			//dialog.UnspecifiedDataSource.Providers.Add(DataProvider.OracleDataProvider);
 			//dialog.UnspecifiedDataSource.Providers.Add(DataProvider.OleDBDataProvider);
 			//dialog.UnspecifiedDataSource.Providers.Add(DataProvider.OdbcDataProvider);
-			dialog.DataSources.Add(dialog.UnspecifiedDataSource);
+			//dialog.DataSources.Add(dialog.UnspecifiedDataSource);
 
 			this.dataSources = new Dictionary<string, DataSource>();
 			this.dataSources.Add(DataSource.SqlDataSource.Name, DataSource.SqlDataSource);
@@ -84,15 +84,15 @@ namespace Microsoft.Data.ConnectionUI
 			//this.dataSources.Add(DataSource.OracleDataSource.Name, DataSource.OracleDataSource);
 			//this.dataSources.Add(DataSource.AccessDataSource.Name, DataSource.AccessDataSource);
 			//this.dataSources.Add(DataSource.OdbcDataSource.Name, DataSource.OdbcDataSource);
-			this.dataSources.Add(SqlCe.SqlCeDataSource.Name, SqlCe.SqlCeDataSource);
-			this.dataSources.Add(dialog.UnspecifiedDataSource.DisplayName, dialog.UnspecifiedDataSource);
+			//this.dataSources.Add(SqlCe.SqlCeDataSource.Name, SqlCe.SqlCeDataSource);
+			//this.dataSources.Add(dialog.UnspecifiedDataSource.DisplayName, dialog.UnspecifiedDataSource);
 
 			this.dataProviders = new Dictionary<string, DataProvider>();
 			this.dataProviders.Add(DataProvider.SqlDataProvider.Name, DataProvider.SqlDataProvider);
 			//this.dataProviders.Add(DataProvider.OracleDataProvider.Name, DataProvider.OracleDataProvider);
 			//this.dataProviders.Add(DataProvider.OleDBDataProvider.Name, DataProvider.OleDBDataProvider);
 			//this.dataProviders.Add(DataProvider.OdbcDataProvider.Name, DataProvider.OdbcDataProvider);
-			this.dataProviders.Add(SqlCe.SqlCeDataProvider.Name, SqlCe.SqlCeDataProvider);
+			//this.dataProviders.Add(SqlCe.SqlCeDataProvider.Name, SqlCe.SqlCeDataProvider);
 
 
 			DataSource ds = null;

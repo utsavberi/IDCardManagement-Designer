@@ -26,8 +26,8 @@
     <ProductName>IDCardDesigner</ProductName>
     <PublisherName>Utsav Beri</PublisherName>
     <SuiteName>IDCardManagement</SuiteName>
-    <ApplicationRevision>8</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationRevision>21</ApplicationRevision>
+    <ApplicationVersion>1.0.0.21</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -67,16 +67,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.SqlServerCe.Client, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ConnectionDialog\References\Microsoft.SqlServerCe.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Synchronization.Data.SqlServerCe, Version=3.5.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -223,10 +217,18 @@
       <Project>{139729cd-0f06-48e8-9f4a-08e78bb6575f}</Project>
       <Name>Microsoft.Data.ConnectionUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ConnectionDialog\SqlCeDataProvider\Microsoft.Data.ConnectionUI.SqlCeDataProvider.csproj">
-      <Project>{1cc9d080-c06d-4202-a14b-14a9cc7f7f31}</Project>
-      <Name>Microsoft.Data.ConnectionUI.SqlCeDataProvider</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="Microsoft.VisualBasic.PowerPacks.Vs">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

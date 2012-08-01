@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using Microsoft.Data.ConnectionUI;
 using System.Data.SqlClient;
 using System.Collections;
-using System.Data.SqlServerCe;
+//using System.Data.SqlServerCe;
 
 namespace IDCardManagement
 {
@@ -51,32 +51,32 @@ namespace IDCardManagement
                 Console.WriteLine("here it is :" + dataSourceType);
                 switch (dataSourceType)
                 {
-                    case "Microsoft SQL Server Compact 3.5":
-                        try
-                        {
-                            using (SqlCeConnection con = new SqlCeConnection(connectionString))
-                            {
-                                tableTxt.Items.Clear();
-                                con.Open();
-                                using (SqlCeCommand command = new SqlCeCommand("SELECT table_name FROM INFORMATION_SCHEMA.Tables", con))
-                                {
-                                    SqlCeDataReader reader = command.ExecuteReader();
-                                    while (reader.Read())
-                                    {
-                                        tableTxt.Items.Add(reader.GetString(0));
+                    //case "Microsoft SQL Server Compact 3.5":
+                    //    try
+                    //    {
+                    //        using (SqlCeConnection con = new SqlCeConnection(connectionString))
+                    //        {
+                    //            tableTxt.Items.Clear();
+                    //            con.Open();
+                    //            using (SqlCeCommand command = new SqlCeCommand("SELECT table_name FROM INFORMATION_SCHEMA.Tables", con))
+                    //            {
+                    //                SqlCeDataReader reader = command.ExecuteReader();
+                    //                while (reader.Read())
+                    //                {
+                    //                    tableTxt.Items.Add(reader.GetString(0));
 
-                                    }
-                                }
-                                con.Close();
-                            }
-                            dcs.SaveConfiguration(dcd);
-                            tableTxt.Enabled = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Unable to establish Connection..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        break;
+                    //                }
+                    //            }
+                    //            con.Close();
+                    //        }
+                    //        dcs.SaveConfiguration(dcd);
+                    //        tableTxt.Enabled = true;
+                    //    }
+                    //    catch (Exception ex)
+                    //    {
+                    //        MessageBox.Show("Unable to establish Connection..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //    }
+                    //    break;
                     case "Microsoft SQL Server":
                         try
                         {
@@ -230,31 +230,31 @@ namespace IDCardManagement
             fields = new ArrayList();
             switch (dataSourceType)
             {
-                case "Microsoft SQL Server Compact 3.5":
-                    try
-                    {
-                        using (SqlCeConnection con = new SqlCeConnection(connectionString))
-                        {
-                            con.Open();
-                            using (SqlCeCommand command = new SqlCeCommand("SELECT column_name FROM information_schema.columns WHERE (table_name = '" + tableName + "')", con))
-                            {
+                //case "Microsoft SQL Server Compact 3.5":
+                //    try
+                //    {
+                //        using (SqlCeConnection con = new SqlCeConnection(connectionString))
+                //        {
+                //            con.Open();
+                //            using (SqlCeCommand command = new SqlCeCommand("SELECT column_name FROM information_schema.columns WHERE (table_name = '" + tableName + "')", con))
+                //            {
 
-                                SqlCeDataReader reader = command.ExecuteReader();
-                                primaryKeyTxt.Items.Clear();
-                                while (reader.Read())
-                                {
-                                    fields.Add(reader.GetString(0));
-                                    primaryKeyTxt.Items.Add(reader.GetString(0));
-                                }
-                            }
-                            con.Close();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Unable to establish Connection..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    break;
+                //                SqlCeDataReader reader = command.ExecuteReader();
+                //                primaryKeyTxt.Items.Clear();
+                //                while (reader.Read())
+                //                {
+                //                    fields.Add(reader.GetString(0));
+                //                    primaryKeyTxt.Items.Add(reader.GetString(0));
+                //                }
+                //            }
+                //            con.Close();
+                //        }
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        MessageBox.Show("Unable to establish Connection..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //    }
+                //    break;
                 case "Microsoft SQL Server":
                     try
                     {
@@ -283,7 +283,7 @@ namespace IDCardManagement
                     }
                     break;
                 default:
-                    MessageBox.Show("Not Implemented Yet..!!");
+                    MessageBox.Show("Please choose Microsoft SQL Server");
                     break;
             }
 

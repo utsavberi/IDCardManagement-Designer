@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
-using System.Data.SqlServerCe;
+//using System.Data.SqlServerCe;
 using System.Data.SqlClient;
 
 
@@ -454,45 +454,46 @@ namespace IDCardManagement
             {
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                     filename = saveFileDialog1.FileName;
-                if (idcard.dataSourceType == "Microsoft SQL Server Compact 3.5")
-                {
-                    using (SqlCeConnection con = new SqlCeConnection(idcard.connectionString))
-                    {
-                        // string tmp = "if not exists (select * from sysobjects where name='" + idcard.tableName + "extra' and xtype='U')";
-                        try
-                        {
-                            con.Open();
-                            try
-                            {
-                                //Console.WriteLine("create table " + filename + "extra ( id nvarchar(100), pic varbinary(8000), printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )");
-                                extraTableName = System.IO.Path.GetFileNameWithoutExtension(filename) + DateTime.Now.Ticks%1000 + "extra";
-                                using (SqlCeCommand cmd = new SqlCeCommand("create table " + extraTableName + " ( id nvarchar(100),  printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )", con))
-                                {
-                                    cmd.ExecuteNonQuery();
+                //if (idcard.dataSourceType == "Microsoft SQL Server Compact 3.5")
+                //{
+                //    using (SqlCeConnection con = new SqlCeConnection(idcard.connectionString))
+                //    {
+                //        // string tmp = "if not exists (select * from sysobjects where name='" + idcard.tableName + "extra' and xtype='U')";
+                //        try
+                //        {
+                //            con.Open();
+                //            try
+                //            {
+                //                //Console.WriteLine("create table " + filename + "extra ( id nvarchar(100), pic varbinary(8000), printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )");
+                //                extraTableName = System.IO.Path.GetFileNameWithoutExtension(filename) + DateTime.Now.Ticks%1000 + "extra";
+                //                using (SqlCeCommand cmd = new SqlCeCommand("create table " + extraTableName + " ( id nvarchar(100),  printtime nvarchar(100),  machineid nvarchar(100), log nvarchar(100), oldprinttime nvarchar(100) )", con))
+                //                {
+                //                    cmd.ExecuteNonQuery();
 
-                                }
-                                using (SqlCeCommand cmd2 = new SqlCeCommand("create table " + extraTableName + "pic ( id nvarchar(100), pic varbinary(8000) )", con))
-                                {
-                                    cmd2.ExecuteNonQuery();
+                //                }
+                //                using (SqlCeCommand cmd2 = new SqlCeCommand("create table " + extraTableName + "pic ( id nvarchar(100), pic varbinary(8000) )", con))
+                //                {
+                //                    cmd2.ExecuteNonQuery();
 
-                                }
+                //                }
 
-                            }
-                            catch (SqlCeException ex)
-                            {
-                                MessageBox.Show("myerror :" + ex.Message);
-                            }
-                        }
-                        catch (SqlCeException ex)
-                        {
-                            MessageBox.Show(ex.Message);
-                        }
-                    }
+                //            }
+                //            catch (SqlCeException ex)
+                //            {
+                //                MessageBox.Show("myerror :" + ex.Message);
+                //            }
+                //        }
+                //        catch (SqlCeException ex)
+                //        {
+                //            MessageBox.Show(ex.Message);
+                //        }
+                //    }
 
 
 
-                }
-                else if (idcard.dataSourceType == "Microsoft SQL Server")
+                //}
+                //else 
+                if (idcard.dataSourceType == "Microsoft SQL Server")
                 {
                     using (SqlConnection con = new SqlConnection(idcard.connectionString))
                     {
