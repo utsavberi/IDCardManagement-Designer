@@ -459,9 +459,10 @@ namespace IDCardManagement
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                this.Cursor = Cursors.WaitCursor;
                 filename = openFileDialog1.FileName;
                 openLoadFile();
-
+                this.Cursor = Cursors.Default;
             }
         }
 
